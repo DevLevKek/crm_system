@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'Elements/Elements_Text.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -22,7 +23,17 @@ class _LoginState extends State<Login> {
               width: 460,
               color: Color.fromARGB(255, 255, 255, 255),
               child: Column(
-                children: [Text("ВХОД"), SizedBox(height: 20), Text('email')],
+                children: [
+                  Text_medium_16(Text_name: 'Дата начало'),
+                  Text_reqular_15(Text_name: 'Text_name'),
+                  Text_bold_22(Text_name: 'Text_name'),
+                  Text_PRIORITET_medium(),
+                  Text_PRIORITET_easy(),
+                  Text_PRIORITET_critical(),
+                  Text_ROLE_Admin(),
+                  Text_ROLE_Moder(),
+                  Text_ROLE_User()
+                ],
               ),
             ),
           ),
@@ -30,32 +41,4 @@ class _LoginState extends State<Login> {
       ),
     );
   }
-}
-
-Widget _buildTextField({
-  required TextEditingController controller,
-  required String hintText,
-  required IconData icon,
-  bool obscureText = false,
-}) {
-  return TextField(
-    controller: controller,
-    obscureText: obscureText,
-    // style: .roboto(color: Colors.white, fontWeight: FontWeight.w100),
-    decoration: InputDecoration(
-      filled: true,
-      fillColor: const Color.fromARGB(255, 35, 38, 39), // Тёмно-серый фон поля
-      hintText: hintText,
-      hintStyle: const TextStyle(
-        color: Color.fromARGB(255, 108, 114, 117),
-        fontSize: 20,
-        fontWeight: FontWeight.w200,
-      ),
-      prefixIcon: Icon(icon, color: Color.fromARGB(255, 108, 114, 117)),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide.none,
-      ),
-    ),
-  );
 }

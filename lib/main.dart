@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'Page/login.dart';
+import 'Page/Elements/Elements_Text.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,4 +17,3 @@ class MyApp extends StatelessWidget {
     return Login();
   }
 }
-//Color.fromARGB(255, 248, 247, 250)
