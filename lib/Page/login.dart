@@ -1,5 +1,7 @@
+import 'package:crm_system/Page/Elements/Elements_Button.dart';
 import 'package:flutter/material.dart';
 import 'Elements/Elements_Text.dart';
+import 'Elements/Elements_TextField.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -27,12 +29,10 @@ class _LoginState extends State<Login> {
                   Text_medium_16(Text_name: 'Дата начало'),
                   Text_reqular_15(Text_name: 'Text_name'),
                   Text_bold_22(Text_name: 'Text_name'),
-                  Text_PRIORITET_medium(),
-                  Text_PRIORITET_easy(),
-                  Text_PRIORITET_critical(),
-                  Text_ROLE_Admin(),
-                  Text_ROLE_Moder(),
-                  Text_ROLE_User()
+                  TextField_MAIL(),
+                  SizedBox(height: 10),
+                  TextField_PASSWORD(controller: TextEditingController()),
+                  TEST_Button()
                 ],
               ),
             ),
