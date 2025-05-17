@@ -1,11 +1,21 @@
+import 'package:crm_system/Page/registr.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'Page/login.dart';
-import 'Page/Elements/Elements_Text.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MaterialApp(
+      title: 'CRM',
+
+      initialRoute: '/',
+      routes: {
+        '/': (BuildContext context) => Login(),
+        '/registr': (BuildContext context) => Registr(),
+      },
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

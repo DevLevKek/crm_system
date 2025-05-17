@@ -13,28 +13,45 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'CRM',
-      home: Scaffold(
-        //appBar: AppBar(title: Center(child: Text('data'))),
-        body: Container(
-          color: Color.fromARGB(255, 248, 247, 250),
-          child: Center(
-            child: Container(
-              height: 440,
-              width: 460,
+    return Scaffold(
+      //appBar: AppBar(title: Center(child: Text('data'))),
+      body: Container(
+        color: Color.fromARGB(255, 248, 247, 250),
+        child: Center(
+          child: Container(
+            padding: EdgeInsets.symmetric(vertical: 50, horizontal: 24),
+            height: 440,
+            width: 460,
+            decoration: BoxDecoration(
               color: Color.fromARGB(255, 255, 255, 255),
-              child: Column(
-                children: [
-                  Text_medium_16(Text_name: 'Дата начало'),
-                  Text_reqular_15(Text_name: 'Text_name'),
-                  Text_bold_22(Text_name: 'Text_name'),
-                  TextField_MAIL(),
-                  SizedBox(height: 10),
-                  TextField_PASSWORD(controller: TextEditingController()),
-                  TEST_Button()
-                ],
-              ),
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Color.fromARGB(52, 47, 43, 61),
+                  blurRadius: 20,
+                  //offset: Offset(0, 0),
+                ),
+              ],
+            ),
+            child: Column(
+              children: [
+                Text_bold_24(Text_name: 'Вход'),
+                SizedBox(height: 32),
+                TextField_MAIL(),
+                SizedBox(height: 12),
+                TextField_PASSWORD(controller: TextEditingController()),
+                SizedBox(height: 32),
+                Button_Login_Disbale(),
+                SizedBox(height: 12),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    
+                    Text_reqular_13_Black(Text_name: 'Нет учетной записи ? '),
+                    Button_Text_Rergistr(context),
+                  ],
+                ),
+              ],
             ),
           ),
         ),

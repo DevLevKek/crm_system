@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 //TEXT
-Widget Text_medium_16({required String Text_name}) {
+Widget Text_medium_16_Black({required String Text_name}) {
   return Text(
     Text_name,
     style: TextStyle(
@@ -10,6 +10,18 @@ Widget Text_medium_16({required String Text_name}) {
       fontSize: 16,
       fontFamily: 'Public Sans',
       color: Color.fromARGB(255, 47, 43, 61),
+    ),
+  );
+} // main Text
+
+Widget Text_medium_16_White({required String Text_name}) {
+  return Text(
+    Text_name,
+    style: TextStyle(
+      fontWeight: FontWeight.w500,
+      fontSize: 16,
+      fontFamily: 'Public Sans',
+      color: Color.fromARGB(255, 255, 255, 255),
     ),
   );
 } // main Text
@@ -26,7 +38,7 @@ Widget Text_reqular_15({required String Text_name}) {
   );
 } // second Text
 
-Widget Text_reqular_13({required String Text_name}) {
+Widget Text_reqular_13_Black({required String Text_name}) {
   return Text(
     Text_name,
     style: TextStyle(
@@ -37,7 +49,19 @@ Widget Text_reqular_13({required String Text_name}) {
     ),
   );
 } // second(2) Text
-
+// ignore: non_constant_identifier_names
+Widget Text_reqular_13_Purple({required String Text_name}) {
+  return Text(
+    Text_name,
+    style: TextStyle(
+      fontWeight: FontWeight.w400,
+      fontSize: 13,
+      fontFamily: 'Public Sans',
+      color: Color.fromARGB(255, 114, 103, 240),
+    ),
+  );
+} // second(2) Text
+// ignore: non_constant_identifier_names
 Widget Text_bold_22({required String Text_name}) {
   return Text(
     Text_name,
@@ -49,7 +73,7 @@ Widget Text_bold_22({required String Text_name}) {
     ),
   );
 } // NAME CRM Text
-
+// ignore: non_constant_identifier_names
 Widget Text_bold_24({required String Text_name}) {
   return Text(
     Text_name,
@@ -65,7 +89,7 @@ Widget Text_bold_24({required String Text_name}) {
 //------------------------------------------------------------------
 // TEXT_STATUS
 //------------------------------------------------------------------
-
+// ignore: non_constant_identifier_names
 Widget Text_STATUS_In_progress() {
   return Container(
     decoration: BoxDecoration(
@@ -86,7 +110,7 @@ Widget Text_STATUS_In_progress() {
     ),
   );
 } // Text Выполняется
-
+// ignore: non_constant_identifier_names
 Widget Text_STATUS_Waiting() {
   return Container(
     decoration: BoxDecoration(
@@ -107,7 +131,7 @@ Widget Text_STATUS_Waiting() {
     ),
   );
 } // Text В ожидании
-
+// ignore: non_constant_identifier_names
 Widget Text_STATUS_Solved() {
   return Container(
     decoration: BoxDecoration(
@@ -128,7 +152,7 @@ Widget Text_STATUS_Solved() {
     ),
   );
 } // Text Решено
-
+// ignore: non_constant_identifier_names
 Widget Text_STATUS_No_Solved() {
   return Container(
     decoration: BoxDecoration(
@@ -153,7 +177,7 @@ Widget Text_STATUS_No_Solved() {
 //------------------------------------------------------------------
 // TEXT_PRIORITET
 //------------------------------------------------------------------
-
+// ignore: non_constant_identifier_names
 Widget Text_PRIORITET_critical() {
   return Row(
     mainAxisAlignment: MainAxisAlignment.center,
@@ -179,7 +203,7 @@ Widget Text_PRIORITET_critical() {
     ],
   );
 } // Text В ожидании
-
+// ignore: non_constant_identifier_names
 Widget Text_PRIORITET_medium() {
   return Row(
     mainAxisAlignment: MainAxisAlignment.center,
@@ -205,7 +229,7 @@ Widget Text_PRIORITET_medium() {
     ],
   );
 } // Text В ожидании
-
+// ignore: non_constant_identifier_names
 Widget Text_PRIORITET_easy() {
   return Row(
     mainAxisAlignment: MainAxisAlignment.center,
@@ -235,7 +259,7 @@ Widget Text_PRIORITET_easy() {
 //------------------------------------------------------------------
 // TEXT_ROLE
 //------------------------------------------------------------------
-
+// ignore: non_constant_identifier_names
 Widget Text_ROLE_User() {
   return Container(
     decoration: BoxDecoration(
@@ -256,7 +280,7 @@ Widget Text_ROLE_User() {
     ),
   );
 } // Text Выполняется
-
+// ignore: non_constant_identifier_names
 Widget Text_ROLE_Admin() {
   return Container(
     decoration: BoxDecoration(
@@ -277,7 +301,7 @@ Widget Text_ROLE_Admin() {
     ),
   );
 } // Text В ожидании
-
+// ignore: non_constant_identifier_names
 Widget Text_ROLE_Moder() {
   return Container(
     decoration: BoxDecoration(
