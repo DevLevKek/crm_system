@@ -1,6 +1,9 @@
 // ignore: file_names
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'Elements_Text.dart';
+
+
 
 // ignore: non_constant_identifier_names
 Widget Button_Text_Rergistr(BuildContext context) {
@@ -25,7 +28,10 @@ Widget Button_Text_Login(BuildContext context) {
 }
 
 // ignore: non_constant_identifier_names
-Widget Button_Login_Enable() {
+Widget Button_Login_Enable({
+  required TextEditingController emailController,
+  required TextEditingController passwordController,
+}) {
   return ElevatedButton(
     style: ButtonStyle(
       minimumSize: WidgetStatePropertyAll(const Size(1000, 0)),
@@ -41,7 +47,9 @@ Widget Button_Login_Enable() {
       child: Text_medium_16_White(Text_name: 'Войти'),
     ),
     // FUNC
-    onPressed: () => print('TEST'),
+    onPressed: () {
+      
+    },
   );
 }
 
