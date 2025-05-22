@@ -4,6 +4,7 @@ import 'package:crm_system/Page/Elements/Elements_TextField.dart';
 import 'package:crm_system/Page/Firebase/Firebase_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 class Registr extends StatefulWidget {
@@ -14,12 +15,12 @@ class Registr extends StatefulWidget {
 }
 
 class _RegistrState extends State<Registr> {
-  //final FirebaseAuthService _auth = FirebaseAuthService();
-  final FirebaseAuthService _auth = FirebaseAuthService();
-  
+  FirebaseAuthService _auth = FirebaseAuthService();
+
   TextEditingController _usernameController = TextEditingController();
-  TextEditingController _emailrnameController = TextEditingController();
+  TextEditingController _emailnameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+  FirebaseDatabase database = FirebaseDatabase.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -48,12 +49,23 @@ class _RegistrState extends State<Registr> {
               children: [
                 Text_bold_24(Text_name: 'Регистрация'),
                 SizedBox(height: 32),
-                TextField_NAME(),
+
+                TextField(
+                  obscureText: false,
+                  controller: _usernameController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Имя',
+                    //helperText: '',
+                    hintText: 'Лев Д',
+                  ),
+                ),
+
                 SizedBox(height: 12),
                 //TextField_MAIL(controller: _emailrnameController),
                 TextField(
                   obscureText: false,
-                  controller: _emailrnameController,
+                  controller: _emailnameController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Почта',
@@ -91,17 +103,30 @@ class _RegistrState extends State<Registr> {
                     child: Text_medium_16_White(Text_name: 'Register'),
                   ),
                   onPressed: () async {
-                    String mail = _emailrnameController.text.trim();
+                    String mail = _emailnameController.text.trim();
                     String pass = _passwordController.text.trim();
+                    String name = _usernameController.text.trim();
+                    //String name = _usernameController.text.trim();
                     User? user = await _auth.signUpWithEmailAndPassword(
                       mail,
                       pass,
                     );
                     if (user != null) {
+                      Map<String, String> userdata = {
+                        'name': name,
+                        'privilege': 'user',
+                      };
+                      DatabaseReference ref = FirebaseDatabase.instance.ref(
+                        'user',
+                      );
+                      // Тута проблема АААААААААА
+                      ref.child(mail).set(userdata);
+                      // Тута проблема АААААААААА
+
                       Navigator.pushReplacementNamed(context, '/HomePage');
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text('Добро пожаловать ! "' + mail + '"'),
+                          content: Text('Добро пожаловать! "' + mail + '"'),
                         ),
                       );
                     } else {
@@ -130,7 +155,7 @@ class _RegistrState extends State<Registr> {
   @override
   void dispose() {
     _usernameController.dispose();
-    _emailrnameController.dispose();
+    _emailnameController.dispose();
     _passwordController.dispose();
     super.dispose();
   }

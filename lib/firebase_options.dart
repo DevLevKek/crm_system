@@ -46,6 +46,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '879415072254',
     projectId: 'crm-system-db',
     authDomain: 'crm-system-db.firebaseapp.com',
+    databaseURL:
+        'https://crm-system-db-default-rtdb.firebaseio.com',
     storageBucket: 'crm-system-db.firebasestorage.app',
   );
 
