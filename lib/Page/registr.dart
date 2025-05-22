@@ -111,27 +111,36 @@ class _RegistrState extends State<Registr> {
                       mail,
                       pass,
                     );
-                    if (user != null) {
-                      Map<String, String> userdata = {
-                        'name': name,
-                        'privilege': 'user',
-                      };
-                      DatabaseReference ref = FirebaseDatabase.instance.ref(
-                        'user',
-                      );
-                      // Тута проблема АААААААААА
-                      ref.child(mail).set(userdata);
-                      // Тута проблема АААААААААА
+                    if (name.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]')) == false) {
+                      if (user != null) {
+                        Map<String, String> userdata = {
+                          'name': name,
+                          'privilege': 'user',
+                        };
+                        DatabaseReference ref = FirebaseDatabase.instance.ref(
+                          'users',
+                        );
+                        //Добавить условие чтоб не вводили в логин специальные символы {@ ! # $ % ^ & * , . " ' : ; \ | }
+                        ref.child(mail.replaceAll('.', '_')).set(userdata);
 
-                      Navigator.pushReplacementNamed(context, '/HomePage');
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('Добро пожаловать! "' + mail + '"'),
-                        ),
-                      );
+                        Navigator.pushReplacementNamed(context, '/HomePage');
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Добро пожаловать! "' + mail + '"'),
+                          ),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Неверный почта/пароль')),
+                        );
+                      }
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Неверный почта/пароль')),
+                        SnackBar(
+                          content: Text(
+                            'Логин не должен содержать специальные символы("!", "_", "@", "#" и т.д.)',
+                          ),
+                        ),
                       );
                     }
                   },
