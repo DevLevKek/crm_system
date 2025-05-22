@@ -15,6 +15,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   final FirebaseAuthService _auth = FirebaseAuthService();
+  bool _isButtonEnabled = false;
 
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -30,6 +31,24 @@ class _LoginState extends State<Login> {
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+
+  void initState() {
+    super.initState();
+    _emailController.addListener(_updateButtonState);
+    _passwordController.addListener(_updateButtonState);
+    // проверяет изменение. Если есть изменения, то выполняет функци. _updateButtonState
+  }
+
+  void _updateButtonState() {
+    setState(() {
+      if (_passwordController.text.isNotEmpty &
+          _emailController.text.isNotEmpty) {
+        _isButtonEnabled = true;
+      } else {
+        _isButtonEnabled = false;
+      }
+    });
   }
 
   @override
@@ -86,9 +105,14 @@ class _LoginState extends State<Login> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    backgroundColor: WidgetStatePropertyAll<Color>(
-                      Color.fromARGB(255, 114, 103, 240),
-                    ),
+                    backgroundColor:
+                        _isButtonEnabled
+                            ? WidgetStatePropertyAll<Color>(
+                              Color.fromARGB(255, 114, 103, 240),
+                            )
+                            : WidgetStatePropertyAll<Color>(
+                              Color.fromARGB(255, 215, 212, 248),
+                            ),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
@@ -99,30 +123,48 @@ class _LoginState extends State<Login> {
                   ),
 
                   // FUNC
-                  onPressed: () async {
-                    String mail = _emailController.text.trim();
-                    String pass = _passwordController.text.trim();
-                    User? user = await _auth.signInWithEmailAndPassword(
-                      mail,
-                      pass,
-                    );
-                    if (user != null) {
-                      Navigator.pushReplacementNamed(context, '/HomePage');
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          backgroundColor: Color.fromARGB(255, 5, 158, 51),
-                          content: Text('Добро пожаловать ! "' + mail + '"'),
-                        ),
-                      );
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          backgroundColor: Color.fromARGB(255, 243, 3, 3),
-                          content: Text('Неправильные логин/пароль'),
-                        ),
-                      );
-                    }
-                  },
+                  onPressed:
+                      _isButtonEnabled
+                          ? () async {
+                            String mail = _emailController.text.trim();
+                            String pass = _passwordController.text.trim();
+                            User? user = await _auth.signInWithEmailAndPassword(
+                              mail,
+                              pass,
+                            );
+                            if (user != null) {
+                              Navigator.pushReplacementNamed(
+                                context,
+                                '/HomePage',
+                              );
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  backgroundColor: Color.fromARGB(
+                                    255,
+                                    5,
+                                    158,
+                                    51,
+                                  ),
+                                  content: Text(
+                                    'Добро пожаловать ! "' + mail + '"',
+                                  ),
+                                ),
+                              );
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  backgroundColor: Color.fromARGB(
+                                    255,
+                                    243,
+                                    3,
+                                    3,
+                                  ),
+                                  content: Text('Неправильные логин/пароль'),
+                                ),
+                              );
+                            }
+                          }
+                          : null,
                 ),
                 SizedBox(height: 12),
 

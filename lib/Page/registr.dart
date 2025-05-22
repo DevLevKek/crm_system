@@ -16,11 +16,33 @@ class Registr extends StatefulWidget {
 
 class _RegistrState extends State<Registr> {
   FirebaseAuthService _auth = FirebaseAuthService();
-
+  @override
+  bool _isButtonEnabled = false;
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _emailnameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   FirebaseDatabase database = FirebaseDatabase.instance;
+
+  void initState() {
+    super.initState();
+    _emailnameController.addListener(_updateButtonState);
+    _passwordController.addListener(_updateButtonState);
+    _usernameController.addListener(
+      _updateButtonState,
+    ); // проверяет изменение. Если есть изменения, то выполняет функци. _updateButtonState
+  }
+
+  void _updateButtonState() {
+    setState(() {
+      if (_usernameController.text.isNotEmpty &
+          _passwordController.text.isNotEmpty &
+          _emailnameController.text.isNotEmpty) {
+        _isButtonEnabled = true;
+      } else {
+        _isButtonEnabled = false;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,65 +113,89 @@ class _RegistrState extends State<Registr> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    backgroundColor: WidgetStatePropertyAll<Color>(
-                      Color.fromARGB(255, 114, 103, 240),
-                    ),
+                    backgroundColor:
+                        _isButtonEnabled
+                            ? WidgetStatePropertyAll<Color>(
+                              Color.fromARGB(255, 114, 103, 240),
+                            )
+                            : WidgetStatePropertyAll<Color>(
+                              Color.fromARGB(255, 215, 212, 248),
+                            ),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 20,
                       vertical: 12,
                     ),
-                    child: Text_medium_16_White(Text_name: 'Register'),
+                    child: Text_medium_16_White(
+                      Text_name: 'Зарегистрироваться',
+                    ),
                   ),
-                  onPressed: () async {
-                    String mail = _emailnameController.text.trim();
-                    String pass = _passwordController.text.trim();
-                    String name = _usernameController.text.trim();
-                    //String name = _usernameController.text.trim();
-                    User? user = await _auth.signUpWithEmailAndPassword(
-                      mail,
-                      pass,
-                    );
-                    if (name.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]')) == false) {
-                      if (user != null) {
-                        Map<String, String> userdata = {
-                          'name': name,
-                          'privilege': 'user',
-                        };
-                        DatabaseReference ref = FirebaseDatabase.instance.ref(
-                          'users',
-                        );
-                        //Добавить условие чтоб не вводили в логин специальные символы {@ ! # $ % ^ & * , . " ' : ; \ | }
-                        ref.child(mail.replaceAll('.', '_')).set(userdata);
+                  onPressed:
+                      _isButtonEnabled
+                          ? () async {
+                            String mail = _emailnameController.text.trim();
+                            String pass = _passwordController.text.trim();
+                            String name = _usernameController.text.trim();
+                            //String name = _usernameController.text.trim();
+                            User? user = await _auth.signUpWithEmailAndPassword(
+                              mail,
+                              pass,
+                            );
+                            if (name.contains(
+                                  RegExp(r'[!@#$%^&*(),.?":{}|<>]'),
+                                ) ==
+                                false) {
+                              if (user != null) {
+                                Map<String, String> userdata = {
+                                  'name': name,
+                                  'privilege': 'user',
+                                };
+                                DatabaseReference ref = FirebaseDatabase
+                                    .instance
+                                    .ref('users');
+                                //Добавить условие чтоб не вводили в логин специальные символы {@ ! # $ % ^ & * , . " ' : ; \ | }
+                                ref
+                                    .child(mail.replaceAll('.', '_'))
+                                    .set(userdata);
 
-                        Navigator.pushReplacementNamed(context, '/HomePage');
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('Добро пожаловать! "' + mail + '"'),
-                          ),
-                        );
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Неверный почта/пароль')),
-                        );
-                      }
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            'Логин не должен содержать специальные символы("!", "_", "@", "#" и т.д.)',
-                          ),
-                        ),
-                      );
-                    }
-                  },
+                                Navigator.pushReplacementNamed(
+                                  context,
+                                  '/HomePage',
+                                );
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'Добро пожаловать! "' + mail + '"',
+                                    ),
+                                  ),
+                                );
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'Такая учетная запись уже есть',
+                                    ),
+                                  ),
+                                );
+                              }
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Логин не должен содержать специальные символы("!", "_", "@", "#" и т.д.)',
+                                  ),
+                                ),
+                              );
+                            }
+                          }
+                          : null,
                 ),
                 SizedBox(height: 12),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text_reqular_13_Black(Text_name: 'Есть учетная запись ? '),
+                    Text_reqular_13_Black(Text_name: 'Есть учетная запись ?'),
                     Button_Text_Login(context),
                   ],
                 ),
