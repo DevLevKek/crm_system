@@ -1,7 +1,11 @@
+import 'dart:math';
+
 import 'package:crm_system/Page/Elements/Elements_Button.dart';
 import 'package:crm_system/Page/Firebase/Firebase_auth.dart';
+import 'package:crm_system/Page/Firebase/databaseUser.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'Elements/Elements_Text.dart';
 import 'Elements/Elements_TextField.dart';
@@ -16,7 +20,6 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final FirebaseAuthService _auth = FirebaseAuthService();
   bool _isButtonEnabled = false;
-
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   @override
@@ -114,15 +117,7 @@ class _LoginState extends State<Login> {
                               Color.fromARGB(255, 215, 212, 248),
                             ),
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 12,
-                    ),
-                    child: Text_medium_16_White(Text_name: 'Войти'),
-                  ),
-
-                  // FUNC
+                  // onPressed
                   onPressed:
                       _isButtonEnabled
                           ? () async {
@@ -133,6 +128,28 @@ class _LoginState extends State<Login> {
                               pass,
                             );
                             if (user != null) {
+                              var ref = FirebaseDatabase.instance.ref('users');
+                              DatabaseEvent event = await ref.once();
+                              Map<dynamic, dynamic> data =
+                                  event.snapshot.value as Map<dynamic, dynamic>;
+                              data.forEach((key, value) {
+                                if (key.toString() ==
+                                    mail.toString().replaceAll('.', '_')) {
+                                  Map<dynamic, dynamic> data_db =
+                                      value as Map<dynamic, dynamic>;
+                                  data_db.forEach((key, value) {
+                                    UserDataMain["email"] = mail;
+                                    if (key == 'name') {
+                                      UserDataMain['name'] = value.toString();
+                                    }
+                                    if (key == 'privilege') {
+                                      UserDataMain['privilege'] = value;
+                                    }
+                                  });
+                                }
+                                print(UserDataMain);
+                              });
+
                               Navigator.pushReplacementNamed(
                                 context,
                                 '/HomePage',
@@ -165,6 +182,13 @@ class _LoginState extends State<Login> {
                             }
                           }
                           : null,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 12,
+                    ),
+                    child: Text_medium_16_White(Text_name: 'Войти'),
+                  ),
                 ),
                 SizedBox(height: 12),
 

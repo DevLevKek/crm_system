@@ -1,3 +1,4 @@
+import 'package:crm_system/Page/Firebase/databaseUser.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +20,10 @@ class _HomePageState extends State<HomePage> {
           ElevatedButton(
             onPressed: () {
               FirebaseAuth.instance.signOut();
+              UserDataMain['name'] = '';
+              UserDataMain['email'] = '';
+              UserDataMain['privilege'] = '';
+              print(UserDataMain);
               Navigator.pushNamed(context, '/');
             },
             child: Text('Выйти из аккаунта'),

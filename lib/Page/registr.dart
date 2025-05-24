@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'Firebase/databaseUser.dart';
 
 class Registr extends StatefulWidget {
   const Registr({super.key});
@@ -79,7 +80,7 @@ class _RegistrState extends State<Registr> {
                     border: OutlineInputBorder(),
                     labelText: 'Имя',
                     //helperText: '',
-                    hintText: 'Лев Д',
+                    hintText: 'Лев',
                   ),
                 ),
 
@@ -122,15 +123,7 @@ class _RegistrState extends State<Registr> {
                               Color.fromARGB(255, 215, 212, 248),
                             ),
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 12,
-                    ),
-                    child: Text_medium_16_White(
-                      Text_name: 'Зарегистрироваться',
-                    ),
-                  ),
+
                   onPressed:
                       _isButtonEnabled
                           ? () async {
@@ -147,6 +140,10 @@ class _RegistrState extends State<Registr> {
                                 ) ==
                                 false) {
                               if (user != null) {
+                                UserDataMain['name'] = name;
+                                UserDataMain['email'] = mail;
+                                UserDataMain['privilege'] = 'user';
+                                print(UserDataMain);
                                 Map<String, String> userdata = {
                                   'name': name,
                                   'privilege': 'user',
@@ -190,6 +187,15 @@ class _RegistrState extends State<Registr> {
                             }
                           }
                           : null,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 12,
+                    ),
+                    child: Text_medium_16_White(
+                      Text_name: 'Зарегистрироваться',
+                    ),
+                  ),
                 ),
                 SizedBox(height: 12),
                 Row(

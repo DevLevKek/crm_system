@@ -17,8 +17,7 @@ void main() async {
         '/': (BuildContext context) => Login(),
         '/registr': (BuildContext context) => Registr(),
         '/HomePage': (BuildContext context) => HomePage(),
-        '/TestPage': (BuildContext context) => TestFunc(),
-
+        '/TestPage': (BuildContext context) => TestFunc(), 
       },
     ),
   );
