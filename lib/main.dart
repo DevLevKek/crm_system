@@ -1,3 +1,4 @@
+import 'package:crm_system/Page/Role.dart';
 import 'package:crm_system/Page/home_page.dart';
 import 'package:crm_system/Page/registr.dart';
 import 'package:crm_system/Test_func.dart';
@@ -17,6 +18,7 @@ void main() async {
         '/': (BuildContext context) => Login(),
         '/registr': (BuildContext context) => Registr(),
         '/HomePage': (BuildContext context) => HomePage(),
+        '/Role': (BuildContext context) => Role(), 
         '/TestPage': (BuildContext context) => TestFunc(), 
       },
     ),

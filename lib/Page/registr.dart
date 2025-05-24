@@ -1,6 +1,4 @@
-import 'package:crm_system/Page/Elements/Elements_Button.dart';
-import 'package:crm_system/Page/Elements/Elements_Text.dart';
-import 'package:crm_system/Page/Elements/Elements_TextField.dart';
+import 'package:crm_system/Page/Elements/Elements.dart';
 import 'package:crm_system/Page/Firebase/Firebase_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -58,7 +56,7 @@ class _RegistrState extends State<Registr> {
             width: 460,
             decoration: BoxDecoration(
               color: Color.fromARGB(255, 255, 255, 255),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(10),
               boxShadow: [
                 BoxShadow(
                   color: Color.fromARGB(52, 47, 43, 61),

@@ -1,14 +1,10 @@
 import 'dart:math';
-
-import 'package:crm_system/Page/Elements/Elements_Button.dart';
 import 'package:crm_system/Page/Firebase/Firebase_auth.dart';
 import 'package:crm_system/Page/Firebase/databaseUser.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'Elements/Elements_Text.dart';
-import 'Elements/Elements_TextField.dart';
+import 'Elements/Elements.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -67,7 +63,7 @@ class _LoginState extends State<Login> {
             width: 460,
             decoration: BoxDecoration(
               color: Color.fromARGB(255, 255, 255, 255),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(10),
               boxShadow: [
                 BoxShadow(
                   color: Color.fromARGB(52, 47, 43, 61),
@@ -207,3 +203,4 @@ class _LoginState extends State<Login> {
     );
   }
 }
+
