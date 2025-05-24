@@ -26,6 +26,30 @@ Widget Text_medium_16_White({required String Text_name}) {
   );
 } // main Text
 
+Widget Text_medium_18_Black({required String Text_name}) {
+  return Text(
+    Text_name,
+    style: TextStyle(
+      fontWeight: FontWeight.w500,
+      fontSize: 18,
+      fontFamily: 'Public Sans',
+      color: Color.fromARGB(255, 47, 43, 61),
+    ),
+  );
+} // main Text
+
+Widget Text_medium_24_Black({required String Text_name}) {
+  return Text(
+    Text_name,
+    style: TextStyle(
+      fontWeight: FontWeight.w500,
+      fontSize: 24,
+      fontFamily: 'Public Sans',
+      color: Color.fromARGB(255, 47, 43, 61),
+    ),
+  );
+} // main Text
+
 Widget Text_reqular_15({required String Text_name}) {
   return Text(
     Text_name,
@@ -49,6 +73,7 @@ Widget Text_reqular_13_Black({required String Text_name}) {
     ),
   );
 } // second(2) Text
+
 // ignore: non_constant_identifier_names
 Widget Text_reqular_13_Purple({required String Text_name}) {
   return Text(
@@ -61,6 +86,7 @@ Widget Text_reqular_13_Purple({required String Text_name}) {
     ),
   );
 } // second(2) Text
+
 // ignore: non_constant_identifier_names
 Widget Text_bold_22({required String Text_name}) {
   return Text(
@@ -73,6 +99,7 @@ Widget Text_bold_22({required String Text_name}) {
     ),
   );
 } // NAME CRM Text
+
 // ignore: non_constant_identifier_names
 Widget Text_bold_24({required String Text_name}) {
   return Text(
@@ -110,6 +137,7 @@ Widget Text_STATUS_In_progress() {
     ),
   );
 } // Text Выполняется
+
 // ignore: non_constant_identifier_names
 Widget Text_STATUS_Waiting() {
   return Container(
@@ -131,6 +159,7 @@ Widget Text_STATUS_Waiting() {
     ),
   );
 } // Text В ожидании
+
 // ignore: non_constant_identifier_names
 Widget Text_STATUS_Solved() {
   return Container(
@@ -152,6 +181,7 @@ Widget Text_STATUS_Solved() {
     ),
   );
 } // Text Решено
+
 // ignore: non_constant_identifier_names
 Widget Text_STATUS_No_Solved() {
   return Container(
@@ -203,6 +233,7 @@ Widget Text_PRIORITET_critical() {
     ],
   );
 } // Text В ожидании
+
 // ignore: non_constant_identifier_names
 Widget Text_PRIORITET_medium() {
   return Row(
@@ -229,6 +260,7 @@ Widget Text_PRIORITET_medium() {
     ],
   );
 } // Text В ожидании
+
 // ignore: non_constant_identifier_names
 Widget Text_PRIORITET_easy() {
   return Row(
@@ -280,6 +312,7 @@ Widget Text_ROLE_User() {
     ),
   );
 } // Text Выполняется
+
 // ignore: non_constant_identifier_names
 Widget Text_ROLE_Admin() {
   return Container(
@@ -301,6 +334,7 @@ Widget Text_ROLE_Admin() {
     ),
   );
 } // Text В ожидании
+
 // ignore: non_constant_identifier_names
 Widget Text_ROLE_Moder() {
   return Container(
@@ -352,5 +386,95 @@ Widget buildTextField({
         borderSide: BorderSide.none,
       ),
     ),
+  );
+}
+//
+
+// ignore: non_constant_identifier_names
+Widget Button_Text_Rergistr(BuildContext context) {
+  return TextButton(
+    onPressed: () {
+      Navigator.pushNamed(context, '/registr');
+    },
+    style: ButtonStyle(),
+    child: Text_reqular_13_Purple(Text_name: 'Зарегистрироваться'),
+  );
+}
+
+// ignore: non_constant_identifier_names
+Widget Button_Text_Login(BuildContext context) {
+  return TextButton(
+    onPressed: () {
+      Navigator.pushNamed(context, '/');
+    },
+    style: ButtonStyle(),
+    child: Text_reqular_13_Purple(Text_name: 'Войти'),
+  );
+}
+
+// ignore: non_constant_identifier_names
+Widget Button_Login_Enable({
+  required TextEditingController emailController,
+  required TextEditingController passwordController,
+}) {
+  return ElevatedButton(
+    style: ButtonStyle(
+      minimumSize: WidgetStatePropertyAll(const Size(1000, 0)),
+      shape: WidgetStatePropertyAll(
+        RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      ),
+      backgroundColor: WidgetStatePropertyAll<Color>(
+        Color.fromARGB(255, 114, 103, 240),
+      ),
+    ),
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      child: Text_medium_16_White(Text_name: 'Войти'),
+    ),
+    // FUNC
+    onPressed: () {},
+  );
+}
+
+// ignore: non_constant_identifier_names
+Widget Button_Login_Disbale() {
+  return ElevatedButton(
+    style: ButtonStyle(
+      minimumSize: WidgetStatePropertyAll(const Size(1000, 0)),
+      shape: WidgetStatePropertyAll(
+        RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      ),
+      backgroundColor: WidgetStatePropertyAll<Color>(
+        Color.fromARGB(255, 161, 155, 231),
+      ),
+    ),
+    // FUNC
+    onPressed: null,
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      child: Text_medium_16_White(Text_name: 'Войти'),
+    ),
+  );
+}
+
+//
+BoxDecoration BD_borderRadius() {
+  return BoxDecoration(
+    color: Color.fromARGB(255, 255, 255, 255),
+    borderRadius: BorderRadius.circular(10),
+    boxShadow: [
+      BoxShadow(color: Color.fromARGB(32, 47, 43, 61), blurRadius: 20),
+    ],
+    //offset: Offset(0, 0),color: Color.fromARGB(52, 47, 43, 61),
+  );
+}
+
+BoxDecoration BD_No_borderRadius() {
+  return BoxDecoration(
+    color: Color.fromARGB(255, 255, 255, 255),
+    boxShadow: [
+      BoxShadow(color: Color.fromARGB(31, 47, 43, 61), blurRadius: 20),
+    ],
+    //offset: Offset(0, 0),color: Color.fromARGB(52, 47, 43, 61),
   );
 }

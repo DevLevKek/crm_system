@@ -1,10 +1,10 @@
-import 'package:crm_system/Page/Elements/Elements_Button.dart';
-import 'package:crm_system/Page/Elements/Elements_Text.dart';
-import 'package:crm_system/Page/Elements/Elements_TextField.dart';
+import 'package:crm_system/Page/Elements/Elements.dart';
 import 'package:crm_system/Page/Firebase/Firebase_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'Firebase/databaseUser.dart';
 
 class Registr extends StatefulWidget {
   const Registr({super.key});
@@ -14,12 +14,34 @@ class Registr extends StatefulWidget {
 }
 
 class _RegistrState extends State<Registr> {
-  //final FirebaseAuthService _auth = FirebaseAuthService();
-  final FirebaseAuthService _auth = FirebaseAuthService();
-  
+  FirebaseAuthService _auth = FirebaseAuthService();
+  @override
+  bool _isButtonEnabled = false;
   TextEditingController _usernameController = TextEditingController();
-  TextEditingController _emailrnameController = TextEditingController();
+  TextEditingController _emailnameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+  FirebaseDatabase database = FirebaseDatabase.instance;
+
+  void initState() {
+    super.initState();
+    _emailnameController.addListener(_updateButtonState);
+    _passwordController.addListener(_updateButtonState);
+    _usernameController.addListener(
+      _updateButtonState,
+    ); // проверяет изменение. Если есть изменения, то выполняет функци. _updateButtonState
+  }
+
+  void _updateButtonState() {
+    setState(() {
+      if (_usernameController.text.isNotEmpty &
+          _passwordController.text.isNotEmpty &
+          _emailnameController.text.isNotEmpty) {
+        _isButtonEnabled = true;
+      } else {
+        _isButtonEnabled = false;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +56,7 @@ class _RegistrState extends State<Registr> {
             width: 460,
             decoration: BoxDecoration(
               color: Color.fromARGB(255, 255, 255, 255),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(10),
               boxShadow: [
                 BoxShadow(
                   color: Color.fromARGB(52, 47, 43, 61),
@@ -48,12 +70,23 @@ class _RegistrState extends State<Registr> {
               children: [
                 Text_bold_24(Text_name: 'Регистрация'),
                 SizedBox(height: 32),
-                TextField_NAME(),
+
+                TextField(
+                  obscureText: false,
+                  controller: _usernameController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Имя',
+                    //helperText: '',
+                    hintText: 'Лев',
+                  ),
+                ),
+
                 SizedBox(height: 12),
                 //TextField_MAIL(controller: _emailrnameController),
                 TextField(
                   obscureText: false,
-                  controller: _emailrnameController,
+                  controller: _emailnameController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Почта',
@@ -79,43 +112,94 @@ class _RegistrState extends State<Registr> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    backgroundColor: WidgetStatePropertyAll<Color>(
-                      Color.fromARGB(255, 114, 103, 240),
-                    ),
+                    backgroundColor:
+                        _isButtonEnabled
+                            ? WidgetStatePropertyAll<Color>(
+                              Color.fromARGB(255, 114, 103, 240),
+                            )
+                            : WidgetStatePropertyAll<Color>(
+                              Color.fromARGB(255, 215, 212, 248),
+                            ),
                   ),
+
+                  onPressed:
+                      _isButtonEnabled
+                          ? () async {
+                            String mail = _emailnameController.text.trim();
+                            String pass = _passwordController.text.trim();
+                            String name = _usernameController.text.trim();
+                            //String name = _usernameController.text.trim();
+                            User? user = await _auth.signUpWithEmailAndPassword(
+                              mail,
+                              pass,
+                            );
+                            if (name.contains(
+                                  RegExp(r'[!@#$%^&*(),.?":{}|<>]'),
+                                ) ==
+                                false) {
+                              if (user != null) {
+                                UserDataMain['name'] = name;
+                                UserDataMain['email'] = mail;
+                                UserDataMain['privilege'] = 'user';
+                                print(UserDataMain);
+                                Map<String, String> userdata = {
+                                  'name': name,
+                                  'privilege': 'user',
+                                };
+                                DatabaseReference ref = FirebaseDatabase
+                                    .instance
+                                    .ref('users');
+                                //Добавить условие чтоб не вводили в логин специальные символы {@ ! # $ % ^ & * , . " ' : ; \ | }
+                                ref
+                                    .child(mail.replaceAll('.', '_'))
+                                    .set(userdata);
+
+                                Navigator.pushReplacementNamed(
+                                  context,
+                                  '/HomePage',
+                                );
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'Добро пожаловать! "' + mail + '"',
+                                    ),
+                                  ),
+                                );
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'Такая учетная запись уже есть',
+                                    ),
+                                  ),
+                                );
+                              }
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Логин не должен содержать специальные символы("!", "_", "@", "#" и т.д.)',
+                                  ),
+                                ),
+                              );
+                            }
+                          }
+                          : null,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 20,
                       vertical: 12,
                     ),
-                    child: Text_medium_16_White(Text_name: 'Register'),
+                    child: Text_medium_16_White(
+                      Text_name: 'Зарегистрироваться',
+                    ),
                   ),
-                  onPressed: () async {
-                    String mail = _emailrnameController.text.trim();
-                    String pass = _passwordController.text.trim();
-                    User? user = await _auth.signUpWithEmailAndPassword(
-                      mail,
-                      pass,
-                    );
-                    if (user != null) {
-                      Navigator.pushReplacementNamed(context, '/HomePage');
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('Добро пожаловать ! "' + mail + '"'),
-                        ),
-                      );
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Неверный почта/пароль')),
-                      );
-                    }
-                  },
                 ),
                 SizedBox(height: 12),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text_reqular_13_Black(Text_name: 'Есть учетная запись ? '),
+                    Text_reqular_13_Black(Text_name: 'Есть учетная запись ?'),
                     Button_Text_Login(context),
                   ],
                 ),
@@ -130,7 +214,7 @@ class _RegistrState extends State<Registr> {
   @override
   void dispose() {
     _usernameController.dispose();
-    _emailrnameController.dispose();
+    _emailnameController.dispose();
     _passwordController.dispose();
     super.dispose();
   }

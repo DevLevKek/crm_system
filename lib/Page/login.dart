@@ -1,10 +1,10 @@
-import 'package:crm_system/Page/Elements/Elements_Button.dart';
+import 'dart:math';
 import 'package:crm_system/Page/Firebase/Firebase_auth.dart';
+import 'package:crm_system/Page/Firebase/databaseUser.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'Elements/Elements_Text.dart';
-import 'Elements/Elements_TextField.dart';
+import 'Elements/Elements.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -15,7 +15,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   final FirebaseAuthService _auth = FirebaseAuthService();
-
+  bool _isButtonEnabled = false;
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   @override
@@ -32,6 +32,24 @@ class _LoginState extends State<Login> {
     super.dispose();
   }
 
+  void initState() {
+    super.initState();
+    _emailController.addListener(_updateButtonState);
+    _passwordController.addListener(_updateButtonState);
+    // проверяет изменение. Если есть изменения, то выполняет функци. _updateButtonState
+  }
+
+  void _updateButtonState() {
+    setState(() {
+      if (_passwordController.text.isNotEmpty &
+          _emailController.text.isNotEmpty) {
+        _isButtonEnabled = true;
+      } else {
+        _isButtonEnabled = false;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +63,7 @@ class _LoginState extends State<Login> {
             width: 460,
             decoration: BoxDecoration(
               color: Color.fromARGB(255, 255, 255, 255),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(10),
               boxShadow: [
                 BoxShadow(
                   color: Color.fromARGB(52, 47, 43, 61),
@@ -86,10 +104,80 @@ class _LoginState extends State<Login> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    backgroundColor: WidgetStatePropertyAll<Color>(
-                      Color.fromARGB(255, 114, 103, 240),
-                    ),
+                    backgroundColor:
+                        _isButtonEnabled
+                            ? WidgetStatePropertyAll<Color>(
+                              Color.fromARGB(255, 114, 103, 240),
+                            )
+                            : WidgetStatePropertyAll<Color>(
+                              Color.fromARGB(255, 215, 212, 248),
+                            ),
                   ),
+                  // onPressed
+                  onPressed:
+                      _isButtonEnabled
+                          ? () async {
+                            String mail = _emailController.text.trim();
+                            String pass = _passwordController.text.trim();
+                            User? user = await _auth.signInWithEmailAndPassword(
+                              mail,
+                              pass,
+                            );
+                            if (user != null) {
+                              var ref = FirebaseDatabase.instance.ref('users');
+                              DatabaseEvent event = await ref.once();
+                              Map<dynamic, dynamic> data =
+                                  event.snapshot.value as Map<dynamic, dynamic>;
+                              data.forEach((key, value) {
+                                if (key.toString() ==
+                                    mail.toString().replaceAll('.', '_')) {
+                                  Map<dynamic, dynamic> data_db =
+                                      value as Map<dynamic, dynamic>;
+                                  data_db.forEach((key, value) {
+                                    UserDataMain["email"] = mail;
+                                    if (key == 'name') {
+                                      UserDataMain['name'] = value.toString();
+                                    }
+                                    if (key == 'privilege') {
+                                      UserDataMain['privilege'] = value;
+                                    }
+                                  });
+                                }
+                                print(UserDataMain);
+                              });
+
+                              Navigator.pushReplacementNamed(
+                                context,
+                                '/HomePage',
+                              );
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  backgroundColor: Color.fromARGB(
+                                    255,
+                                    5,
+                                    158,
+                                    51,
+                                  ),
+                                  content: Text(
+                                    'Добро пожаловать ! "' + mail + '"',
+                                  ),
+                                ),
+                              );
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  backgroundColor: Color.fromARGB(
+                                    255,
+                                    243,
+                                    3,
+                                    3,
+                                  ),
+                                  content: Text('Неправильные логин/пароль'),
+                                ),
+                              );
+                            }
+                          }
+                          : null,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 20,
@@ -97,34 +185,9 @@ class _LoginState extends State<Login> {
                     ),
                     child: Text_medium_16_White(Text_name: 'Войти'),
                   ),
-
-                  // FUNC
-                  onPressed: () async {
-                    String mail = _emailController.text.trim();
-                    String pass = _passwordController.text.trim();
-                    User? user = await _auth.signInWithEmailAndPassword(
-                      mail,
-                      pass,
-                    );
-                    if (user != null) {
-                      Navigator.pushReplacementNamed(context, '/HomePage');
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          backgroundColor: Color.fromARGB(255, 5, 158, 51),
-                          content: Text('Добро пожаловать ! "' + mail + '"'),
-                        ),
-                      );
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          backgroundColor: Color.fromARGB(255, 243, 3, 3),
-                          content: Text('Неправильные логин/пароль'),
-                        ),
-                      );
-                    }
-                  },
                 ),
                 SizedBox(height: 12),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -140,3 +203,4 @@ class _LoginState extends State<Login> {
     );
   }
 }
+
