@@ -1,6 +1,6 @@
 # crm_system
 
-A new Flutter project.
+Ready 35%
 
 ## Getting Started
 
