@@ -11,8 +11,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String _selectPriority = '';
+  String nameDP = '';
   final _nameDPController = TextEditingController();
   final _descriptionDPController = TextEditingController();
+  final _themeDPController = TextEditingController();
 
   void initState() {
     super.initState();
@@ -429,7 +432,7 @@ class _HomePageState extends State<HomePage> {
                               String description =
                                   _descriptionDPController.text.trim();
                               var ref = FirebaseDatabase.instance.ref(
-                                'Application_template',
+                                'Application_template_departament',
                               );
                               DatabaseEvent event = await ref.once();
                               Map<dynamic, dynamic> data =
@@ -445,6 +448,7 @@ class _HomePageState extends State<HomePage> {
                                   _dialogBuilder_Application_Template_Create_Theme(
                                     context,
                                   );
+                                  nameDP = name;
                                 }
                               });
                             },
@@ -473,226 +477,319 @@ class _HomePageState extends State<HomePage> {
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          actions: <Widget>[
-            Column(
-              children: [
-                Divider(color: Color.fromARGB(55, 0, 0, 0)),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+        String selectPriority = _selectPriority;
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              actions: <Widget>[
+                Column(
                   children: [
-                    Container(
-                      child: Column(
-                        children: [
-                          Card(
-                            elevation: 0,
-                            color: Color.fromARGB(255, 255, 255, 255),
-                            clipBehavior: Clip.hardEdge,
-                            child: SizedBox(
-                              height: 60,
-                              width: 180,
-                              child: Padding(
-                                padding: const EdgeInsets.all(4.0),
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(12),
-                                        color: Color.fromARGB(
-                                          255,
-                                          114,
-                                          103,
-                                          240,
-                                        ),
-                                      ),
+                    Divider(color: Color.fromARGB(55, 0, 0, 0)),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          child: Column(
+                            children: [
+                              Card(
+                                elevation: 0,
+                                color: Color.fromARGB(255, 255, 255, 255),
+                                clipBehavior: Clip.hardEdge,
+                                child: SizedBox(
+                                  height: 60,
+                                  width: 180,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(
+                                              12,
+                                            ),
+                                            color: Color.fromARGB(255, 205, 247, 224),
+                                          ),
 
-                                      child: Center(
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Icon(
-                                            Icons.people,
-                                            size: 40,
-                                            color: Color.fromARGB(
-                                              255,
-                                              255,
-                                              255,
-                                              255,
+                                          child: Center(
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(
+                                                8.0,
+                                              ),
+                                              child: Icon(
+                                                Icons.people,
+                                                size: 40,
+                                                color: Color.fromARGB(255, 40, 199, 111)
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                    ),
-                                    SizedBox(width: 12),
-                                    Center(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        SizedBox(width: 12),
+                                        Center(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
 
-                                        children: [
-                                          Text_medium_18_Black(
-                                            Text_name: 'Отдел',
-                                          ),
-                                          Text_reqular_13_Black(
-                                            Text_name: 'Выберите отдел',
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          Card(
-                            elevation: 0,
-                            color: Color.fromARGB(255, 255, 255, 255),
-                            clipBehavior: Clip.hardEdge,
-                            child: SizedBox(
-                              height: 60,
-                              width: 180,
-                              child: Padding(
-                                padding: const EdgeInsets.all(4.0),
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(12),
-                                        color: Color.fromARGB(
-                                          255,
-                                          238,
-                                          237,
-                                          240,
-                                        ),
-                                      ),
-
-                                      child: Center(
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Icon(
-                                            Icons.library_books,
-                                            size: 40,
-                                            color: Color.fromARGB(
-                                              255,
-                                              19,
-                                              19,
-                                              19,
-                                            ),
+                                            children: [
+                                              Text_medium_18_Black(
+                                                Text_name: 'Отдел',
+                                              ),
+                                              Text_reqular_13_Black(
+                                                Text_name: 'Выберите отдел',
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                      ),
+                                      ],
                                     ),
-                                    SizedBox(width: 12),
-                                    Center(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text_medium_18_Black(
-                                            Text_name: 'Тема',
-                                          ),
-                                          Text_reqular_13_Black(
-                                            Text_name: 'Выберите тему',
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(width: 12),
-                    Container(
-                      height: 240,
-                      child: VerticalDivider(
-                        color: Color.fromARGB(55, 0, 0, 0),
-                      ),
-                    ),
-                    Container(
-                      //height: 230,
-                      width: 530,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text_medium_22_Black(Text_name: 'Отдел'),
-                          SizedBox(height: 8),
-                          TextField(
-                            controller: _nameDPController,
-                            decoration: InputDecoration(
-                              label: Text_reqular_15_black(
-                                Text_name: 'Название отдела',
-                              ),
-                              border: OutlineInputBorder(),
-                            ),
-                          ),
-                          SizedBox(height: 12),
-                          TextField(
-                            controller: _descriptionDPController,
-                            decoration: InputDecoration(
-                              label: Text_reqular_15_black(
-                                Text_name: 'Описание',
-                              ),
-                              border: OutlineInputBorder(),
-                            ),
-                          ),
-                          SizedBox(height: 12),
-                          //
-                          //---------------------------------------------ElevatedButton-----------------------------------------------------
-                          //
-                          ElevatedButton.icon(
-                            label: Text_reqular_15_white(Text_name: 'Далее'),
-                            style: ButtonStyle(
-                              backgroundColor:
-                                  WidgetStateProperty.resolveWith<Color>(
-                                    (states) =>
-                                        _isButtonEnabled
-                                            ? Color.fromARGB(255, 40, 199, 111)
-                                            : Color.fromARGB(94, 74, 110, 90),
                                   ),
-                              // WidgetStatePropertyAll<Color>(
-                              //   Color.fromARGB(255, 40, 199, 111),
-                              // ),
-                              shadowColor: WidgetStatePropertyAll<Color>(
-                                Color.fromARGB(33, 40, 199, 111),
+                                ),
                               ),
-                              elevation: WidgetStatePropertyAll(0),
-                            ),
-                            onPressed: () async {
-                              String name = _nameDPController.text.trim();
-                              String description =
-                                  _descriptionDPController.text.trim();
-                              var ref = FirebaseDatabase.instance.ref(
-                                'Application_template',
-                              );
-                              DatabaseEvent event = await ref.once();
-                              Map<dynamic, dynamic> data =
-                                  event.snapshot.value as Map<dynamic, dynamic>;
-                              data.forEach((key, value) {
-                                print(key);
-                                if (key != name) {
-                                  Map<String, String> descriptiondata = {
-                                    'description_DP': description,
-                                  };
-                                  ref.child(name).set(descriptiondata);
-                                }
-                              });
-                            },
+                              Card(
+                                elevation: 0,
+                                color: Color.fromARGB(255, 255, 255, 255),
+                                clipBehavior: Clip.hardEdge,
+                                child: SizedBox(
+                                  height: 60,
+                                  width: 180,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(
+                                              12,
+                                            ),
+                                            
+                                            color: Color.fromARGB(
+                                              255,
+                                              114,
+                                              103,
+                                              240,
+                                            ),
+                                          ),
+
+                                          child: Center(
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(
+                                                8.0,
+                                              ),
+                                              child: Icon(
+                                                Icons.library_books,
+                                                size: 40,
+                                                color: Color.fromARGB(255, 255, 255, 255),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(width: 12),
+                                        Center(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text_medium_18_Black(
+                                                Text_name: 'Тема',
+                                              ),
+                                              Text_reqular_13_Black(
+                                                Text_name: 'Выберите тему',
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                        SizedBox(width: 12),
+                        Container(
+                          height: 240,
+                          child: VerticalDivider(
+                            color: Color.fromARGB(55, 0, 0, 0),
+                          ),
+                        ),
+                        Container(
+                          //height: 230,
+                          width: 530,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text_medium_22_Black(Text_name: 'Тема'),
+                              SizedBox(height: 8),
+                              TextField(
+                                controller: _themeDPController,
+                                decoration: InputDecoration(
+                                  label: Text_reqular_15_black(
+                                    Text_name: 'Название темы',
+                                  ),
+                                  border: OutlineInputBorder(),
+                                ),
+                              ),
+                              SizedBox(height: 12),
+                              Column(
+                                children: [
+                                  ListTile(
+                                    title: Text(
+                                      'Низкий',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 15,
+                                        fontFamily: 'Public Sans',
+                                        color: Color.fromARGB(
+                                          255,
+                                          40,
+                                          199,
+                                          111,
+                                        ),
+                                      ),
+                                    ),
+                                    focusColor: Color.fromARGB(
+                                      255,
+                                      40,
+                                      199,
+                                      111,
+                                    ),
+                                    leading: Radio<String>(
+                                      value: 'Низкий',
+                                      groupValue: _selectPriority,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          selectPriority = value!;
+                                          _selectPriority = value;
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                  ListTile(
+                                    title: Text(
+                                      'Средний',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 15,
+                                        fontFamily: 'Public Sans',
+                                        color: Color.fromARGB(
+                                          255,
+                                          255,
+                                          158,
+                                          67,
+                                        ),
+                                      ),
+                                    ),
+                                    focusColor: Color.fromARGB(
+                                      255,
+                                      255,
+                                      158,
+                                      67,
+                                    ),
+                                    leading: Radio<String>(
+                                      value: 'Средний',
+                                      groupValue: _selectPriority,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          selectPriority = value!;
+                                          _selectPriority = value;
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                  ListTile(
+                                    title: Text(
+                                      'Критический',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 15,
+                                        fontFamily: 'Public Sans',
+                                        color: Color.fromARGB(255, 255, 76, 82)
+                                      ),
+                                    ),
+                                    hoverColor: Color.fromARGB(255, 255, 76, 82),
+                                    leading: Radio<String>(
+                                      value: 'Критический',
+                                      groupValue: _selectPriority,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          selectPriority = value!;
+                                          _selectPriority = value;
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+
+                              SizedBox(height: 12),
+                              //
+                              //---------------------------------------------ElevatedButton-----------------------------------------------------
+                              //
+                              ElevatedButton.icon(
+                                label: Text_reqular_15_white(
+                                  Text_name: 'Далее',
+                                ),
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                      WidgetStateProperty.resolveWith<Color>(
+                                        (states) =>
+                                            _isButtonEnabled
+                                                ? Color.fromARGB(
+                                                  255,
+                                                  40,
+                                                  199,
+                                                  111,
+                                                )
+                                                : Color.fromARGB(
+                                                  94,
+                                                  74,
+                                                  110,
+                                                  90,
+                                                ),
+                                      ),
+                                  // WidgetStatePropertyAll<Color>(
+                                  //   Color.fromARGB(255, 40, 199, 111),
+                                  // ),
+                                  shadowColor: WidgetStatePropertyAll<Color>(
+                                    Color.fromARGB(33, 40, 199, 111),
+                                  ),
+                                  elevation: WidgetStatePropertyAll(0),
+                                ),
+                                onPressed: () async {
+                                  var ref = FirebaseDatabase.instance.ref(
+                                    
+                                  );
+                                  DatabaseEvent event = await ref.once();
+                                  Map<dynamic, dynamic> data =
+                                      event.snapshot.value
+                                          as Map<dynamic, dynamic>;
+                                  data.forEach((key, value) {
+                                    print(key);
+                                    if (key == nameDP) {
+                                      Map<String, String> theme = {
+                                        'name_theme': _themeDPController.text.trim(),
+                                        'priority': _selectPriority, 
+                                      };
+                                      ref.set('Application_template_theme');
+                                      //ref.child(nameDP).set(theme);
+                                    }
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
               ],
-            ),
-          ],
-          backgroundColor: Color.fromARGB(255, 255, 255, 255),
-          title: Center(
-            child: Text_medium_24_Black(Text_name: 'Шаблон заявок'),
-          ),
+              backgroundColor: Color.fromARGB(255, 255, 255, 255),
+              title: Center(
+                child: Text_medium_24_Black(Text_name: 'Шаблон заявок'),
+              ),
+            );
+          },
         );
       },
     );
