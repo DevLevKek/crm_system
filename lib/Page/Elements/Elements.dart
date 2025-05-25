@@ -50,7 +50,19 @@ Widget Text_medium_24_Black({required String Text_name}) {
   );
 } // main Text
 
-Widget Text_reqular_15({required String Text_name}) {
+Widget Text_medium_22_Black({required String Text_name}) {
+  return Text(
+    Text_name,
+    style: TextStyle(
+      fontWeight: FontWeight.w500,
+      fontSize: 22,
+      fontFamily: 'Public Sans',
+      color: Color.fromARGB(255, 47, 43, 61),
+    ),
+  );
+} // main Text
+
+Widget Text_reqular_15_black({required String Text_name}) {
   return Text(
     Text_name,
     style: TextStyle(
@@ -58,6 +70,18 @@ Widget Text_reqular_15({required String Text_name}) {
       fontSize: 15,
       fontFamily: 'Public Sans',
       color: Color.fromARGB(174, 47, 43, 61),
+    ),
+  );
+} // second Text
+
+Widget Text_reqular_15_white({required String Text_name}) {
+  return Text(
+    Text_name,
+    style: TextStyle(
+      fontWeight: FontWeight.w400,
+      fontSize: 15,
+      fontFamily: 'Public Sans',
+      color: Color.fromARGB(255, 255, 255, 255),
     ),
   );
 } // second Text

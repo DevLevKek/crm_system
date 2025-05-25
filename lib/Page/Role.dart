@@ -13,6 +13,8 @@ class Role extends StatefulWidget {
 
 class _Role extends State<Role> {
   final user = FirebaseAuth.instance.currentUser!;
+
+  @override
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -173,7 +175,23 @@ class _Role extends State<Role> {
                 right: 12,
                 top: 24,
               ),
-              child: Container(decoration: BD_borderRadius()),
+              child: Container(
+                decoration: BD_borderRadius(),
+                child: Padding(
+                  padding: const EdgeInsets.all(24.0),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [Text_medium_18_Black(Text_name: 'ФИЛЬТР')],
+                      ),
+                      Column(children: [
+                        // ListView.builder(itemBuilder: , )
+                      ],)
+                    ],
+                  ),
+                ),
+              ),
             ),
           ),
           //ПРАВЫЙ БЛОК
@@ -194,3 +212,5 @@ class _Role extends State<Role> {
     );
   }
 }
+//  Widget _viewType() {
+//     return new DropdownButton(items: , onChanged: onChanged)}

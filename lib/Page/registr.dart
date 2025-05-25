@@ -149,7 +149,6 @@ class _RegistrState extends State<Registr> {
                                 DatabaseReference ref = FirebaseDatabase
                                     .instance
                                     .ref('users');
-                                //Добавить условие чтоб не вводили в логин специальные символы {@ ! # $ % ^ & * , . " ' : ; \ | }
                                 ref
                                     .child(mail.replaceAll('.', '_'))
                                     .set(userdata);
@@ -160,6 +159,12 @@ class _RegistrState extends State<Registr> {
                                 );
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
+                                    backgroundColor: Color.fromARGB(
+                                      255,
+                                      5,
+                                      158,
+                                      51,
+                                    ),
                                     content: Text(
                                       'Добро пожаловать! "' + mail + '"',
                                     ),

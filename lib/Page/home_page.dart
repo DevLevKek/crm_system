@@ -11,6 +11,37 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final _nameDPController = TextEditingController();
+  final _descriptionDPController = TextEditingController();
+
+  void initState() {
+    super.initState();
+
+    _nameDPController.addListener(_updateButtonState);
+    _descriptionDPController.addListener(_updateButtonState);
+    // проверяет изменение. Если есть изменения, то выполняет функци. _updateButtonState
+  }
+
+  void _updateButtonState() {
+    setState(() {
+      if (_nameDPController.text.isNotEmpty &
+          _descriptionDPController.text.isNotEmpty) {
+        _isButtonEnabled = true;
+      } else {
+        _isButtonEnabled = false;
+      }
+    });
+  }
+
+  @override
+  bool _isButtonEnabled = false;
+
+  void dispose() {
+    _nameDPController.dispose();
+    _descriptionDPController.dispose();
+    super.dispose();
+  }
+
   @override
   Future<void> _dialogBuilder_Application_Template(BuildContext context) {
     return showDialog<void>(
@@ -18,7 +49,6 @@ class _HomePageState extends State<HomePage> {
       builder: (BuildContext context) {
         return AlertDialog(
           backgroundColor: Color.fromARGB(255, 255, 255, 255),
-
           title: Center(
             child: Text_medium_24_Black(Text_name: 'Шаблон заявок'),
           ),
@@ -27,6 +57,8 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Divider(color: Color.fromARGB(55, 0, 0, 0)),
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+
                   children: [
                     Container(
                       child: Column(
@@ -35,61 +67,57 @@ class _HomePageState extends State<HomePage> {
                             elevation: 0,
                             color: Color.fromARGB(255, 255, 255, 255),
                             clipBehavior: Clip.hardEdge,
-                            child: InkWell(
-                              onTap: () {
-                                debugPrint('APAPA');
-                              },
-                              child: SizedBox(
-                                height: 60,
-                                width: 180,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(4.0),
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(
-                                            12,
-                                          ),
-                                          color: Color.fromARGB(
-                                            255,
-                                            114,
-                                            103,
-                                            240,
-                                          ),
+                            child: SizedBox(
+                              height: 60,
+                              width: 180,
+                              child: Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(12),
+                                        color: Color.fromARGB(
+                                          255,
+                                          114,
+                                          103,
+                                          240,
                                         ),
+                                      ),
 
-                                        child: Center(
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Icon(
-                                              Icons.people,
-                                              size: 40,
-                                              color: Color.fromARGB(
-                                                255,
-                                                255,
-                                                255,
-                                                255,
-                                              ),
+                                      child: Center(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Icon(
+                                            Icons.people,
+                                            size: 40,
+                                            color: Color.fromARGB(
+                                              255,
+                                              255,
+                                              255,
+                                              255,
                                             ),
                                           ),
                                         ),
                                       ),
-                                      SizedBox(width: 12),
-                                      Center(
-                                        child: Column(
-                                          children: [
-                                            Text_medium_18_Black(
-                                              Text_name: 'Отдел',
-                                            ),
-                                            Text_reqular_13_Black(
-                                              Text_name: 'Выберите отдел',
-                                            ),
-                                          ],
-                                        ),
+                                    ),
+                                    SizedBox(width: 12),
+                                    Center(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+
+                                        children: [
+                                          Text_medium_18_Black(
+                                            Text_name: 'Отдел',
+                                          ),
+                                          Text_reqular_13_Black(
+                                            Text_name: 'Выберите отдел',
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
@@ -98,61 +126,56 @@ class _HomePageState extends State<HomePage> {
                             elevation: 0,
                             color: Color.fromARGB(255, 255, 255, 255),
                             clipBehavior: Clip.hardEdge,
-                            child: InkWell(
-                              onTap: () {
-                                debugPrint('APAPA');
-                              },
-                              child: SizedBox(
-                                height: 60,
-                                width: 180,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(4.0),
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(
-                                            12,
-                                          ),
-                                          color: Color.fromARGB(
-                                            255,
-                                            238,
-                                            237,
-                                            240,
-                                          ),
+                            child: SizedBox(
+                              height: 60,
+                              width: 180,
+                              child: Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(12),
+                                        color: Color.fromARGB(
+                                          255,
+                                          238,
+                                          237,
+                                          240,
                                         ),
+                                      ),
 
-                                        child: Center(
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Icon(
-                                              Icons.library_books,
-                                              size: 40,
-                                              color: Color.fromARGB(
-                                                255,
-                                                19,
-                                                19,
-                                                19,
-                                              ),
+                                      child: Center(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Icon(
+                                            Icons.library_books,
+                                            size: 40,
+                                            color: Color.fromARGB(
+                                              255,
+                                              19,
+                                              19,
+                                              19,
                                             ),
                                           ),
                                         ),
                                       ),
-                                      SizedBox(width: 12),
-                                      Center(
-                                        child: Column(
-                                          children: [
-                                            Text_medium_18_Black(
-                                              Text_name: 'Тема',
-                                            ),
-                                            Text_reqular_13_Black(
-                                              Text_name: 'Выберите тему',
-                                            ),
-                                          ],
-                                        ),
+                                    ),
+                                    SizedBox(width: 12),
+                                    Center(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text_medium_18_Black(
+                                            Text_name: 'Тема',
+                                          ),
+                                          Text_reqular_13_Black(
+                                            Text_name: 'Выберите тему',
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
@@ -171,7 +194,33 @@ class _HomePageState extends State<HomePage> {
                       height: 230,
                       width: 530,
                       child: Column(
-                        children: [Text_medium_24_Black(Text_name: 'Тест')],
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text_medium_24_Black(Text_name: 'Отделы'),
+                          SizedBox(height: 12),
+                          ElevatedButton.icon(
+                            style: ButtonStyle(
+                              minimumSize: WidgetStatePropertyAll(
+                                const Size(700, 50),
+                              ),
+                              elevation: WidgetStatePropertyAll(0),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              _dialogBuilder_Application_Template_Create_department(
+                                context,
+                              );
+                            },
+                            icon: Icon(
+                              Icons.add,
+                              color: Colors.black,
+                              size: 25,
+                            ),
+                            label: Text_medium_16_Black(
+                              Text_name: 'Создать новый отдел',
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
@@ -179,6 +228,471 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ],
+        );
+      },
+    );
+  }
+
+  @override
+  Future<void> _dialogBuilder_Application_Template_Create_department(
+    BuildContext context,
+  ) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          actions: <Widget>[
+            Column(
+              children: [
+                Divider(color: Color.fromARGB(55, 0, 0, 0)),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      child: Column(
+                        children: [
+                          Card(
+                            elevation: 0,
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            clipBehavior: Clip.hardEdge,
+                            child: SizedBox(
+                              height: 60,
+                              width: 180,
+                              child: Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(12),
+                                        color: Color.fromARGB(
+                                          255,
+                                          114,
+                                          103,
+                                          240,
+                                        ),
+                                      ),
+
+                                      child: Center(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Icon(
+                                            Icons.people,
+                                            size: 40,
+                                            color: Color.fromARGB(
+                                              255,
+                                              255,
+                                              255,
+                                              255,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width: 12),
+                                    Center(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+
+                                        children: [
+                                          Text_medium_18_Black(
+                                            Text_name: 'Отдел',
+                                          ),
+                                          Text_reqular_13_Black(
+                                            Text_name: 'Выберите отдел',
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          Card(
+                            elevation: 0,
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            clipBehavior: Clip.hardEdge,
+                            child: SizedBox(
+                              height: 60,
+                              width: 180,
+                              child: Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(12),
+                                        color: Color.fromARGB(
+                                          255,
+                                          238,
+                                          237,
+                                          240,
+                                        ),
+                                      ),
+
+                                      child: Center(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Icon(
+                                            Icons.library_books,
+                                            size: 40,
+                                            color: Color.fromARGB(
+                                              255,
+                                              19,
+                                              19,
+                                              19,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width: 12),
+                                    Center(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text_medium_18_Black(
+                                            Text_name: 'Тема',
+                                          ),
+                                          Text_reqular_13_Black(
+                                            Text_name: 'Выберите тему',
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(width: 12),
+                    Container(
+                      height: 240,
+                      child: VerticalDivider(
+                        color: Color.fromARGB(55, 0, 0, 0),
+                      ),
+                    ),
+                    Container(
+                      //height: 230,
+                      width: 530,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text_medium_22_Black(Text_name: 'Отдел'),
+                          SizedBox(height: 8),
+                          TextField(
+                            controller: _nameDPController,
+                            decoration: InputDecoration(
+                              label: Text_reqular_15_black(
+                                Text_name: 'Название отдела',
+                              ),
+                              border: OutlineInputBorder(),
+                            ),
+                          ),
+                          SizedBox(height: 12),
+                          TextField(
+                            controller: _descriptionDPController,
+                            decoration: InputDecoration(
+                              label: Text_reqular_15_black(
+                                Text_name: 'Описание',
+                              ),
+                              border: OutlineInputBorder(),
+                            ),
+                          ),
+                          SizedBox(height: 12),
+                          //
+                          //---------------------------------------------ElevatedButton-----------------------------------------------------
+                          //
+                          ElevatedButton.icon(
+                            label: Text_reqular_15_white(Text_name: 'Далее'),
+                            style: ButtonStyle(
+                              backgroundColor:
+                                  WidgetStateProperty.resolveWith<Color>(
+                                    (states) =>
+                                        _isButtonEnabled
+                                            ? Color.fromARGB(255, 40, 199, 111)
+                                            : Color.fromARGB(94, 74, 110, 90),
+                                  ),
+                              shadowColor: WidgetStatePropertyAll<Color>(
+                                Color.fromARGB(33, 40, 199, 111),
+                              ),
+                              elevation: WidgetStatePropertyAll(0),
+                            ),
+                            onPressed: () async {
+                              String name = _nameDPController.text.trim();
+                              String description =
+                                  _descriptionDPController.text.trim();
+                              var ref = FirebaseDatabase.instance.ref(
+                                'Application_template',
+                              );
+                              DatabaseEvent event = await ref.once();
+                              Map<dynamic, dynamic> data =
+                                  event.snapshot.value as Map<dynamic, dynamic>;
+                              data.forEach((key, value) {
+                                print(key);
+                                if (key != name) {
+                                  Map<String, String> descriptiondata = {
+                                    'description_DP': description,
+                                  };
+                                  ref.child(name).set(descriptiondata);
+                                  Navigator.of(context).pop();
+                                  _dialogBuilder_Application_Template_Create_Theme(
+                                    context,
+                                  );
+                                }
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
+          backgroundColor: Color.fromARGB(255, 255, 255, 255),
+          title: Center(
+            child: Text_medium_24_Black(Text_name: 'Шаблон заявок'),
+          ),
+        );
+      },
+    );
+  }
+
+  @override
+  Future<void> _dialogBuilder_Application_Template_Create_Theme(
+    BuildContext context,
+  ) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          actions: <Widget>[
+            Column(
+              children: [
+                Divider(color: Color.fromARGB(55, 0, 0, 0)),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      child: Column(
+                        children: [
+                          Card(
+                            elevation: 0,
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            clipBehavior: Clip.hardEdge,
+                            child: SizedBox(
+                              height: 60,
+                              width: 180,
+                              child: Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(12),
+                                        color: Color.fromARGB(
+                                          255,
+                                          114,
+                                          103,
+                                          240,
+                                        ),
+                                      ),
+
+                                      child: Center(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Icon(
+                                            Icons.people,
+                                            size: 40,
+                                            color: Color.fromARGB(
+                                              255,
+                                              255,
+                                              255,
+                                              255,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width: 12),
+                                    Center(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+
+                                        children: [
+                                          Text_medium_18_Black(
+                                            Text_name: 'Отдел',
+                                          ),
+                                          Text_reqular_13_Black(
+                                            Text_name: 'Выберите отдел',
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          Card(
+                            elevation: 0,
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            clipBehavior: Clip.hardEdge,
+                            child: SizedBox(
+                              height: 60,
+                              width: 180,
+                              child: Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(12),
+                                        color: Color.fromARGB(
+                                          255,
+                                          238,
+                                          237,
+                                          240,
+                                        ),
+                                      ),
+
+                                      child: Center(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Icon(
+                                            Icons.library_books,
+                                            size: 40,
+                                            color: Color.fromARGB(
+                                              255,
+                                              19,
+                                              19,
+                                              19,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width: 12),
+                                    Center(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text_medium_18_Black(
+                                            Text_name: 'Тема',
+                                          ),
+                                          Text_reqular_13_Black(
+                                            Text_name: 'Выберите тему',
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(width: 12),
+                    Container(
+                      height: 240,
+                      child: VerticalDivider(
+                        color: Color.fromARGB(55, 0, 0, 0),
+                      ),
+                    ),
+                    Container(
+                      //height: 230,
+                      width: 530,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text_medium_22_Black(Text_name: 'Отдел'),
+                          SizedBox(height: 8),
+                          TextField(
+                            controller: _nameDPController,
+                            decoration: InputDecoration(
+                              label: Text_reqular_15_black(
+                                Text_name: 'Название отдела',
+                              ),
+                              border: OutlineInputBorder(),
+                            ),
+                          ),
+                          SizedBox(height: 12),
+                          TextField(
+                            controller: _descriptionDPController,
+                            decoration: InputDecoration(
+                              label: Text_reqular_15_black(
+                                Text_name: 'Описание',
+                              ),
+                              border: OutlineInputBorder(),
+                            ),
+                          ),
+                          SizedBox(height: 12),
+                          //
+                          //---------------------------------------------ElevatedButton-----------------------------------------------------
+                          //
+                          ElevatedButton.icon(
+                            label: Text_reqular_15_white(Text_name: 'Далее'),
+                            style: ButtonStyle(
+                              backgroundColor:
+                                  WidgetStateProperty.resolveWith<Color>(
+                                    (states) =>
+                                        _isButtonEnabled
+                                            ? Color.fromARGB(255, 40, 199, 111)
+                                            : Color.fromARGB(94, 74, 110, 90),
+                                  ),
+                              // WidgetStatePropertyAll<Color>(
+                              //   Color.fromARGB(255, 40, 199, 111),
+                              // ),
+                              shadowColor: WidgetStatePropertyAll<Color>(
+                                Color.fromARGB(33, 40, 199, 111),
+                              ),
+                              elevation: WidgetStatePropertyAll(0),
+                            ),
+                            onPressed: () async {
+                              String name = _nameDPController.text.trim();
+                              String description =
+                                  _descriptionDPController.text.trim();
+                              var ref = FirebaseDatabase.instance.ref(
+                                'Application_template',
+                              );
+                              DatabaseEvent event = await ref.once();
+                              Map<dynamic, dynamic> data =
+                                  event.snapshot.value as Map<dynamic, dynamic>;
+                              data.forEach((key, value) {
+                                print(key);
+                                if (key != name) {
+                                  Map<String, String> descriptiondata = {
+                                    'description_DP': description,
+                                  };
+                                  ref.child(name).set(descriptiondata);
+                                }
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
+          backgroundColor: Color.fromARGB(255, 255, 255, 255),
+          title: Center(
+            child: Text_medium_24_Black(Text_name: 'Шаблон заявок'),
+          ),
         );
       },
     );
