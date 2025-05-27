@@ -428,17 +428,17 @@ class _HomePageState extends State<HomePage> {
                               elevation: WidgetStatePropertyAll(0),
                             ),
                             onPressed: () async {
+                              //???
                               String name = _nameDPController.text.trim();
                               String description =
                                   _descriptionDPController.text.trim();
-                              var ref = FirebaseDatabase.instance.ref(
+                              final ref = FirebaseDatabase.instance.ref(
                                 'Application_template_departament',
                               );
                               DatabaseEvent event = await ref.once();
                               Map<dynamic, dynamic> data =
                                   event.snapshot.value as Map<dynamic, dynamic>;
                               data.forEach((key, value) {
-                                print(key);
                                 if (key != name) {
                                   Map<String, String> descriptiondata = {
                                     'description_DP': description,
@@ -451,6 +451,7 @@ class _HomePageState extends State<HomePage> {
                                   nameDP = name;
                                 }
                               });
+                              //????
                             },
                           ),
                         ],
@@ -507,7 +508,12 @@ class _HomePageState extends State<HomePage> {
                                             borderRadius: BorderRadius.circular(
                                               12,
                                             ),
-                                            color: Color.fromARGB(255, 205, 247, 224),
+                                            color: Color.fromARGB(
+                                              255,
+                                              205,
+                                              247,
+                                              224,
+                                            ),
                                           ),
 
                                           child: Center(
@@ -518,7 +524,12 @@ class _HomePageState extends State<HomePage> {
                                               child: Icon(
                                                 Icons.people,
                                                 size: 40,
-                                                color: Color.fromARGB(255, 40, 199, 111)
+                                                color: Color.fromARGB(
+                                                  255,
+                                                  40,
+                                                  199,
+                                                  111,
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -560,7 +571,7 @@ class _HomePageState extends State<HomePage> {
                                             borderRadius: BorderRadius.circular(
                                               12,
                                             ),
-                                            
+
                                             color: Color.fromARGB(
                                               255,
                                               114,
@@ -577,7 +588,12 @@ class _HomePageState extends State<HomePage> {
                                               child: Icon(
                                                 Icons.library_books,
                                                 size: 40,
-                                                color: Color.fromARGB(255, 255, 255, 255),
+                                                color: Color.fromARGB(
+                                                  255,
+                                                  255,
+                                                  255,
+                                                  255,
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -703,10 +719,15 @@ class _HomePageState extends State<HomePage> {
                                         fontWeight: FontWeight.w500,
                                         fontSize: 15,
                                         fontFamily: 'Public Sans',
-                                        color: Color.fromARGB(255, 255, 76, 82)
+                                        color: Color.fromARGB(255, 255, 76, 82),
                                       ),
                                     ),
-                                    hoverColor: Color.fromARGB(255, 255, 76, 82),
+                                    hoverColor: Color.fromARGB(
+                                      255,
+                                      255,
+                                      76,
+                                      82,
+                                    ),
                                     leading: Radio<String>(
                                       value: 'Критический',
                                       groupValue: _selectPriority,
@@ -756,9 +777,7 @@ class _HomePageState extends State<HomePage> {
                                   elevation: WidgetStatePropertyAll(0),
                                 ),
                                 onPressed: () async {
-                                  var ref = FirebaseDatabase.instance.ref(
-                                    
-                                  );
+                                  var ref = FirebaseDatabase.instance.ref();
                                   DatabaseEvent event = await ref.once();
                                   Map<dynamic, dynamic> data =
                                       event.snapshot.value
@@ -767,8 +786,9 @@ class _HomePageState extends State<HomePage> {
                                     print(key);
                                     if (key == nameDP) {
                                       Map<String, String> theme = {
-                                        'name_theme': _themeDPController.text.trim(),
-                                        'priority': _selectPriority, 
+                                        'name_theme':
+                                            _themeDPController.text.trim(),
+                                        'priority': _selectPriority,
                                       };
                                       ref.set('Application_template_theme');
                                       //ref.child(nameDP).set(theme);
