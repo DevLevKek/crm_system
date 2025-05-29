@@ -1,6 +1,7 @@
 import 'package:crm_system/Page/Firebase/databaseUser.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'Elements/Elements.dart';
 
@@ -12,9 +13,57 @@ class Role extends StatefulWidget {
 }
 
 class _Role extends State<Role> {
-  final user = FirebaseAuth.instance.currentUser!;
-
   @override
+  void initState() {
+    super.initState();
+    dbusers();
+  }
+
+  void dbusers() async {
+    var ref = FirebaseDatabase.instance.ref('users');
+    DatabaseEvent event = await ref.once();
+    Map<dynamic, dynamic> data_db =
+        event.snapshot.value as Map<dynamic, dynamic>;
+    data_db.forEach((key, value) {
+      userName = key;
+      Map<dynamic, dynamic> data = value as Map;
+    });
+  }
+
+  String userName = '';
+  final user = FirebaseAuth.instance.currentUser!;
+  Query dbRef = FirebaseDatabase.instance.ref().child('users');
+
+  Widget listItem() {
+    return Container(
+      height: 60,
+      color: const Color.fromARGB(255, 255, 255, 255),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text_medium_16_Black(Text_name: userName),
+                    Text_reqular_13_Black(Text_name: ''),
+                  ],
+                ),
+                // DropdownButtonFormField(items: , onChanged: (value) {
+
+                // },)
+              ],
+            ),
+          ),
+          Divider(color: Color.fromARGB(55, 0, 0, 0)),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -185,9 +234,36 @@ class _Role extends State<Role> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [Text_medium_18_Black(Text_name: 'ФИЛЬТР')],
                       ),
-                      Column(children: [
-                        // ListView.builder(itemBuilder: , )
-                      ],)
+                      SizedBox(height: 12),
+                      Divider(color: Color.fromARGB(55, 0, 0, 0)),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 24.0,
+                          vertical: 4,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text_medium_16_Black(Text_name: 'Имя'),
+                            Text_medium_16_Black(Text_name: 'Отдел'),
+                            Text_medium_16_Black(Text_name: 'Роль'),
+                          ],
+                        ),
+                      ),
+                      Divider(color: Color.fromARGB(82, 0, 0, 0)),
+                      Expanded(
+                        child: FirebaseAnimatedList(
+                          query: dbRef,
+                          itemBuilder: (
+                            BuildContext context,
+                            DataSnapshot snapshot,
+                            Animation<double> animation,
+                            int index,
+                          ) {
+                            return listItem();
+                          },
+                        ),
+                      ),
                     ],
                   ),
                 ),

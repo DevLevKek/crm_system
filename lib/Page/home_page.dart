@@ -431,26 +431,47 @@ class _HomePageState extends State<HomePage> {
                               String name = _nameDPController.text.trim();
                               String description =
                                   _descriptionDPController.text.trim();
+                              Map<String, String> data = {
+                                'description_DP': description,
+                                // 'theme': '',
+                              };
                               var ref = FirebaseDatabase.instance.ref(
                                 'Application_template_departament',
                               );
+                              //ref.child(name).set(data);
+                              bool name_coincidence = false;
+
                               DatabaseEvent event = await ref.once();
-                              Map<dynamic, dynamic> data =
+                              Map<dynamic, dynamic> data_db =
                                   event.snapshot.value as Map<dynamic, dynamic>;
-                              data.forEach((key, value) {
-                                print(key);
-                                if (key != name) {
-                                  Map<String, String> descriptiondata = {
-                                    'description_DP': description,
-                                  };
-                                  ref.child(name).set(descriptiondata);
-                                  Navigator.of(context).pop();
-                                  _dialogBuilder_Application_Template_Create_Theme(
-                                    context,
-                                  );
-                                  nameDP = name;
+                              data_db.forEach((key, value) {
+                                if (key == name) {
+                                  name_coincidence = true;
                                 }
                               });
+                              if (name_coincidence != true) {
+                                ref.child(name).set(data);
+                                name_coincidence = false;
+                                Navigator.of(context).pop();
+                                _dialogBuilder_Application_Template_Create_Theme(
+                                  context,
+                                );
+                              }
+                              // DatabaseEvent event = await ref.once();
+                              // Map<dynamic, dynamic> data =
+                              //     event.snapshot.value as Map<dynamic, dynamic>;
+                              // data.forEach((key, value) {
+                              //   if (key != name) {
+                              //     Map<String, String> descriptiondata = {
+                              //       'description_DP': description,
+                              //     };
+                              //     ref.child(name).set(descriptiondata);
+                              //     Navigator.of(context).pop();
+                              //     _dialogBuilder_Application_Template_Create_Theme(
+                              //       context,
+                              //     );
+                              //     nameDP = name;
+                              //   }
                             },
                           ),
                         ],
@@ -507,7 +528,12 @@ class _HomePageState extends State<HomePage> {
                                             borderRadius: BorderRadius.circular(
                                               12,
                                             ),
-                                            color: Color.fromARGB(255, 205, 247, 224),
+                                            color: Color.fromARGB(
+                                              255,
+                                              205,
+                                              247,
+                                              224,
+                                            ),
                                           ),
 
                                           child: Center(
@@ -518,7 +544,12 @@ class _HomePageState extends State<HomePage> {
                                               child: Icon(
                                                 Icons.people,
                                                 size: 40,
-                                                color: Color.fromARGB(255, 40, 199, 111)
+                                                color: Color.fromARGB(
+                                                  255,
+                                                  40,
+                                                  199,
+                                                  111,
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -560,7 +591,7 @@ class _HomePageState extends State<HomePage> {
                                             borderRadius: BorderRadius.circular(
                                               12,
                                             ),
-                                            
+
                                             color: Color.fromARGB(
                                               255,
                                               114,
@@ -577,7 +608,12 @@ class _HomePageState extends State<HomePage> {
                                               child: Icon(
                                                 Icons.library_books,
                                                 size: 40,
-                                                color: Color.fromARGB(255, 255, 255, 255),
+                                                color: Color.fromARGB(
+                                                  255,
+                                                  255,
+                                                  255,
+                                                  255,
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -703,10 +739,15 @@ class _HomePageState extends State<HomePage> {
                                         fontWeight: FontWeight.w500,
                                         fontSize: 15,
                                         fontFamily: 'Public Sans',
-                                        color: Color.fromARGB(255, 255, 76, 82)
+                                        color: Color.fromARGB(255, 255, 76, 82),
                                       ),
                                     ),
-                                    hoverColor: Color.fromARGB(255, 255, 76, 82),
+                                    hoverColor: Color.fromARGB(
+                                      255,
+                                      255,
+                                      76,
+                                      82,
+                                    ),
                                     leading: Radio<String>(
                                       value: 'Критический',
                                       groupValue: _selectPriority,
@@ -756,9 +797,7 @@ class _HomePageState extends State<HomePage> {
                                   elevation: WidgetStatePropertyAll(0),
                                 ),
                                 onPressed: () async {
-                                  var ref = FirebaseDatabase.instance.ref(
-                                    
-                                  );
+                                  var ref = FirebaseDatabase.instance.ref('Application_template_departament');
                                   DatabaseEvent event = await ref.once();
                                   Map<dynamic, dynamic> data =
                                       event.snapshot.value
@@ -767,8 +806,9 @@ class _HomePageState extends State<HomePage> {
                                     print(key);
                                     if (key == nameDP) {
                                       Map<String, String> theme = {
-                                        'name_theme': _themeDPController.text.trim(),
-                                        'priority': _selectPriority, 
+                                        'name_theme':
+                                            _themeDPController.text.trim(),
+                                        'priority': _selectPriority,
                                       };
                                       ref.set('Application_template_theme');
                                       //ref.child(nameDP).set(theme);
@@ -1009,7 +1049,8 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ),
                               onPressed: () {
-                                _dialogBuilder_Application_Template(context);
+                                //_dialogBuilder_Application_Template(context);
+                                Navigator.pushNamed(context, '/HomePage/ApplicationTemplate');
                               },
                               child: Text_medium_16_White(
                                 Text_name: 'Редактор',

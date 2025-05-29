@@ -437,6 +437,15 @@ Widget Button_Text_Login(BuildContext context) {
 }
 
 // ignore: non_constant_identifier_names
+Widget Icon_Close_Button(BuildContext context) {
+  return IconButton(
+    onPressed: () {
+      Navigator.pushReplacementNamed(context, '/HomePage');
+    },
+    icon: Icon(Icons.close, size: 25),
+  );
+}
+
 Widget Button_Login_Enable({
   required TextEditingController emailController,
   required TextEditingController passwordController,
