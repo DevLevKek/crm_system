@@ -432,15 +432,7 @@ class _HomePageState extends State<HomePage> {
                               String name = _nameDPController.text.trim();
                               String description =
                                   _descriptionDPController.text.trim();
-<<<<<<< HEAD
-                              Map<String, String> data = {
-                                'description_DP': description,
-                                // 'theme': '',
-                              };
-                              var ref = FirebaseDatabase.instance.ref(
-=======
                               final ref = FirebaseDatabase.instance.ref(
->>>>>>> 21961be90a639706cf6e42db9709235ddf345df3
                                 'Application_template_departament',
                               );
                               //ref.child(name).set(data);
@@ -449,37 +441,7 @@ class _HomePageState extends State<HomePage> {
                               DatabaseEvent event = await ref.once();
                               Map<dynamic, dynamic> data_db =
                                   event.snapshot.value as Map<dynamic, dynamic>;
-<<<<<<< HEAD
                               data_db.forEach((key, value) {
-                                if (key == name) {
-                                  name_coincidence = true;
-                                }
-                              });
-                              if (name_coincidence != true) {
-                                ref.child(name).set(data);
-                                name_coincidence = false;
-                                Navigator.of(context).pop();
-                                _dialogBuilder_Application_Template_Create_Theme(
-                                  context,
-                                );
-                              }
-                              // DatabaseEvent event = await ref.once();
-                              // Map<dynamic, dynamic> data =
-                              //     event.snapshot.value as Map<dynamic, dynamic>;
-                              // data.forEach((key, value) {
-                              //   if (key != name) {
-                              //     Map<String, String> descriptiondata = {
-                              //       'description_DP': description,
-                              //     };
-                              //     ref.child(name).set(descriptiondata);
-                              //     Navigator.of(context).pop();
-                              //     _dialogBuilder_Application_Template_Create_Theme(
-                              //       context,
-                              //     );
-                              //     nameDP = name;
-                              //   }
-=======
-                              data.forEach((key, value) {
                                 if (key != name) {
                                   Map<String, String> descriptiondata = {
                                     'description_DP': description,
@@ -493,7 +455,6 @@ class _HomePageState extends State<HomePage> {
                                 }
                               });
                               //????
->>>>>>> 21961be90a639706cf6e42db9709235ddf345df3
                             },
                           ),
                         ],
@@ -819,11 +780,7 @@ class _HomePageState extends State<HomePage> {
                                   elevation: WidgetStatePropertyAll(0),
                                 ),
                                 onPressed: () async {
-<<<<<<< HEAD
-                                  var ref = FirebaseDatabase.instance.ref('Application_template_departament');
-=======
                                   var ref = FirebaseDatabase.instance.ref();
->>>>>>> 21961be90a639706cf6e42db9709235ddf345df3
                                   DatabaseEvent event = await ref.once();
                                   Map<dynamic, dynamic> data =
                                       event.snapshot.value
@@ -1076,7 +1033,10 @@ class _HomePageState extends State<HomePage> {
                               ),
                               onPressed: () {
                                 //_dialogBuilder_Application_Template(context);
-                                Navigator.pushNamed(context, '/HomePage/ApplicationTemplate');
+                                Navigator.pushNamed(
+                                  context,
+                                  '/HomePage/ApplicationTemplate',
+                                );
                               },
                               child: Text_medium_16_White(
                                 Text_name: 'Редактор',
