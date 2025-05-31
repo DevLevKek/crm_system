@@ -1,6 +1,6 @@
 # crm_system
 
-Ready 45%
+Ready 65%
 
 ## Getting Started
 
