@@ -3,6 +3,7 @@ import 'package:crm_system/Page/Application%20template/Application_Template_Crea
 import 'package:crm_system/Page/Application%20template/Application_Template_Create_department.dart';
 import 'package:crm_system/Page/Application%20template/Application_Template_Update_Department.dart';
 import 'package:crm_system/Page/Application%20template/Application_Template_Update_Theme.dart';
+import 'package:crm_system/Page/Applications.dart';
 import 'package:crm_system/Page/Role.dart';
 import 'package:crm_system/Page/home_page.dart';
 import 'package:crm_system/Page/registr.dart';
@@ -33,6 +34,7 @@ void main() async {
             (BuildContext context) => ApplicationTemplateUpdateDepartment(),
         '/HomePage/ApplicationTemplate/UpdateDepartment/Theme':
             (BuildContext context) => ApplicationTemplateUpdateTheme(),
+        '/HomePage/Applications': (BuildContext context) => Applications(),
         '/Role': (BuildContext context) => Role(),
         '/TestPage': (BuildContext context) => TestFunc(),
       },

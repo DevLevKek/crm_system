@@ -145,6 +145,7 @@ class _RegistrState extends State<Registr> {
                                 Map<String, String> userdata = {
                                   'name': name,
                                   'privilege': 'user',
+                                  'deportament': '-'
                                 };
                                 DatabaseReference ref = FirebaseDatabase
                                     .instance

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:crm_system/Page/Firebase/databaseUser.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -13,30 +15,76 @@ class Role extends StatefulWidget {
 }
 
 class _Role extends State<Role> {
+  List<String> data_db_a = []; // Application_template_departament
+  List<String> data_db_au = []; //
+  List<String> data_db_u = []; // users
+
   @override
   void initState() {
     super.initState();
-    dbusers();
+    dApplication_template_departament();
+    dUsers();
+    dApplication_template_departament_USER();
   }
 
-  void dbusers() async {
-    var ref = FirebaseDatabase.instance.ref('users');
-    DatabaseEvent event = await ref.once();
-    Map<dynamic, dynamic> data_db =
-        event.snapshot.value as Map<dynamic, dynamic>;
+  dUsers() async {
+    var refAT = FirebaseDatabase.instance.ref('users');
+    DatabaseEvent event = await refAT.once();
+    Map<dynamic, dynamic> data_db = event.snapshot.value as Map;
+    List<String> dt = [];
     data_db.forEach((key, value) {
-      userName = key;
-      Map<dynamic, dynamic> data = value as Map;
+      Map<dynamic, dynamic> dd = value as Map<dynamic, dynamic>;
+      dd.forEach((key, value) {
+        if (key == 'privilege') {
+          dt.add(value.toString());
+        }
+      });
+    });
+    setState(() {
+      data_db_u = dt;
     });
   }
 
-  String userName = '';
-  final user = FirebaseAuth.instance.currentUser!;
-  Query dbRef = FirebaseDatabase.instance.ref().child('users');
+  dApplication_template_departament() async {
+    var refAT = FirebaseDatabase.instance.ref(
+      'Application_template_departament',
+    );
+    DatabaseEvent event = await refAT.once();
+    Map<dynamic, dynamic> data_db = event.snapshot.value as Map;
+    List<String> dt = ['-'];
+    data_db.forEach((key, value) => dt.add(key.toString()));
+    setState(() {
+      data_db_a = dt;
+    });
+  }
 
-  Widget listItem() {
+  dApplication_template_departament_USER() async {
+    var refAT = FirebaseDatabase.instance.ref('users');
+    DatabaseEvent event = await refAT.once();
+    Map<dynamic, dynamic> data_db = event.snapshot.value as Map;
+    List<String> dt = [];
+    bool privilegeUser = false;
+    data_db.forEach((key, value) {
+      Map<dynamic, dynamic> data = value as Map<dynamic, dynamic>;
+      data.forEach((key, value) {
+        if (key == 'deportament') {
+          dt.add(value.toString());
+        }
+      });
+    });
+    setState(() {});
+    data_db_au = dt;
+  }
+
+  List<String> dropdownValueUser = ['user', 'executor', 'admin'];
+  String? dropdownValueDeportment;
+  String userName = '';
+  final user = FirebaseAuth.instance.currentUser?.email!;
+  Query dbRef = FirebaseDatabase.instance.ref().child('users');
+  String dropdownValue = '';
+  Widget listItem(Map dt, String nameuser, int index) {
     return Container(
-      height: 60,
+      height: 70,
       color: const Color.fromARGB(255, 255, 255, 255),
       child: Column(
         children: [
@@ -48,13 +96,92 @@ class _Role extends State<Role> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text_medium_16_Black(Text_name: userName),
-                    Text_reqular_13_Black(Text_name: ''),
+                    Text_medium_16_Black(Text_name: nameuser),
+                    Text_reqular_13_Black(Text_name: dt['name']),
                   ],
                 ),
-                // DropdownButtonFormField(items: , onChanged: (value) {
 
-                // },)
+                DropdownButton<String>(
+                  value: data_db_au[index],
+                  items:
+                      data_db_a.map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+
+                  onChanged: (value) async {
+                    var ref = FirebaseDatabase.instance.ref('users');
+                    DatabaseEvent event = await ref.once();
+                    Map<dynamic, dynamic> data_db = event.snapshot.value as Map;
+
+                    //Временные переменные
+                    bool privilege_user = false;
+                    //
+                    data_db.forEach((key, value) {
+                      if (nameuser == key) {
+                        Map<dynamic, dynamic> data_db_value = value as Map;
+                        data_db_value.forEach((key, value) {
+                          if (key == 'privilege' && value == 'executor') {
+                            privilege_user = true;
+                          } else {
+                            privilege_user = false;
+                          }
+                        });
+                      }
+                    });
+                    if (privilege_user) {
+                      setState(() {
+                        data_db_au[index] = value.toString();
+                      });
+                      ref.child(nameuser).update({
+                        'deportament': data_db_au[index],
+                      });
+                      privilege_user = false;
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: Color.fromARGB(255, 243, 3, 3),
+                          content: Text(
+                            'Нельзя менять отдел для "user"/"admin"',
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                ),
+                DropdownButton<String>(
+                  items:
+                      <String>[
+                        'user',
+                        'executor',
+                        'admin',
+                      ].map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                  value: data_db_u[index],
+                  onChanged: (newValue) {
+                    data_db_u[index] = newValue.toString();
+                    DatabaseReference ref = FirebaseDatabase.instance.ref(
+                      'users',
+                    );
+                    setState(() {
+                      ref.child(nameuser).update({
+                        'privilege': newValue.toString(),
+                      });
+                      if (newValue == 'user' || newValue == 'admin') {
+                        ref.child(nameuser).update({
+                          'deportament': data_db_a[0],
+                        });
+                        data_db_au[index] = data_db_a[0];
+                      }
+                    });
+                  },
+                ),
               ],
             ),
           ),
@@ -122,7 +249,6 @@ class _Role extends State<Role> {
                                   onPressed: () async {
                                     UpdateDB updateDB = UpdateDB();
                                     await updateDB.UpdateUserData();
-                                    print(UserDataMain['privilege']);
                                     Navigator.pushReplacementNamed(
                                       context,
                                       '/HomePage',
@@ -231,8 +357,10 @@ class _Role extends State<Role> {
                   child: Column(
                     children: [
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [Text_medium_18_Black(Text_name: 'ФИЛЬТР')],
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text_medium_18_Black(Text_name: 'Роли пользователей'),
+                        ],
                       ),
                       SizedBox(height: 12),
                       Divider(color: Color.fromARGB(55, 0, 0, 0)),
@@ -260,7 +388,9 @@ class _Role extends State<Role> {
                             Animation<double> animation,
                             int index,
                           ) {
-                            return listItem();
+                            Map dt = snapshot.value as Map;
+                            String nameuser = snapshot.key as String;
+                            return listItem(dt, nameuser, index);
                           },
                         ),
                       ),
