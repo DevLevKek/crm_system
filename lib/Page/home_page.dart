@@ -59,7 +59,6 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
-
   Widget listItem(Map dt, String nameuser, int index, Map apDT) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 2),
@@ -189,42 +188,48 @@ class _HomePageState extends State<HomePage> {
                                   },
                                 ),
                                 SizedBox(height: 8),
-                                ElevatedButton.icon(
-                                  icon: Icon(
-                                    Icons.person_outline,
-                                    size: 25,
-                                    color: Color.fromARGB(255, 47, 43, 61),
-                                  ),
-                                  style: ButtonStyle(
-                                    minimumSize: WidgetStatePropertyAll(
-                                      const Size(100, 40),
+                                Visibility(
+                                  visible: UserDataMain['privilege'] == 'admin',
+                                  child: ElevatedButton.icon(
+                                    icon: Icon(
+                                      Icons.person_outline,
+                                      size: 25,
+                                      color: Color.fromARGB(255, 47, 43, 61),
                                     ),
-
-                                    shadowColor: WidgetStatePropertyAll<Color>(
-                                      Color.fromARGB(0, 255, 225, 227),
-                                    ),
-                                    shape: WidgetStatePropertyAll(
-                                      RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
+                                    style: ButtonStyle(
+                                      minimumSize: WidgetStatePropertyAll(
+                                        const Size(100, 40),
                                       ),
-                                    ),
-                                    backgroundColor:
-                                        WidgetStatePropertyAll<Color>(
-                                          Color.fromARGB(255, 255, 255, 255),
+
+                                      shadowColor:
+                                          WidgetStatePropertyAll<Color>(
+                                            Color.fromARGB(0, 255, 225, 227),
+                                          ),
+                                      shape: WidgetStatePropertyAll(
+                                        RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            10,
+                                          ),
                                         ),
+                                      ),
+                                      backgroundColor:
+                                          WidgetStatePropertyAll<Color>(
+                                            Color.fromARGB(255, 255, 255, 255),
+                                          ),
+                                    ),
+                                    label: Text_medium_16_Black(
+                                      Text_name: 'Роли',
+                                    ),
+                                    onPressed: () async {
+                                      UpdateDB updateDB = UpdateDB();
+                                      await updateDB.UpdateUserData();
+                                      print(UserDataMain['privilege']);
+                                      Navigator.pushReplacementNamed(
+                                        context,
+                                        '/Role',
+                                      );
+                                    },
                                   ),
-                                  label: Text_medium_16_Black(
-                                    Text_name: 'Роли',
-                                  ),
-                                  onPressed: () async {
-                                    UpdateDB updateDB = UpdateDB();
-                                    await updateDB.UpdateUserData();
-                                    print(UserDataMain['privilege']);
-                                    Navigator.pushReplacementNamed(
-                                      context,
-                                      '/Role',
-                                    );
-                                  },
                                 ),
                               ],
                             ),
