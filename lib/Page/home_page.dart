@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     UpdateDB updateDB = UpdateDB();
     updateDB.UpdateUserData();
-    print(updateDB);
+    print(updateDB.UpdateUserData());
     _nameDPController.addListener(_updateButtonState);
     _descriptionDPController.addListener(_updateButtonState);
     // проверяет изменение. Если есть изменения, то выполняет функци. _updateButtonState
@@ -39,6 +39,16 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  Query dbRefUser = FirebaseDatabase.instance
+      .ref()
+      .child('applications')
+      .orderByChild('author')
+      .equalTo(UserDataMain['email'].toString());
+  Query dbRefExecutor = FirebaseDatabase.instance
+      .ref()
+      .child('applications')
+      .orderByChild('departament')
+      .equalTo(UserDataMain['departament'].toString());
   Query dbRef = FirebaseDatabase.instance.ref().child('applications');
   @override
   bool _isButtonEnabled = false;
@@ -49,31 +59,65 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
-  Widget listItem(Map dt, String nameuser, int index) {
+
+  Widget listItem(Map dt, String nameuser, int index, Map apDT) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 2),
-      child: Container(
-        height: 50,
-        color: const Color.fromARGB(255, 105, 105, 105),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(child: Text(nameuser)),
-            SizedBox(width: 10),
-            Expanded(child: Text(dt['author'].toString())),
-            SizedBox(width: 4),
-            Expanded(child: Text(dt['author'].toString())),
-            SizedBox(width: 4),
-            Expanded(child: Text(dt['departament'].toString())),
-            SizedBox(width: 4),
-            Expanded(child: Text(dt['theme'].toString())),
-            SizedBox(width: 4),
-            Expanded(child: Text('Критический')),
-            SizedBox(width: 4),
-            Expanded(child: Text(dt['status'].toString())),
-            SizedBox(width: 4),
-            Expanded(child: Text(dt['time_create'].toString())),
-          ],
+      child: GestureDetector(
+        onTap: () {
+          Navigator.pushReplacementNamed(
+            context,
+            '/HomePage/Application',
+            arguments: apDT,
+          );
+          print(index);
+        },
+        child: Container(
+          height: 50,
+          color: const Color.fromARGB(255, 255, 255, 255),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(child: Text(dt['executor'].toString())),
+                  SizedBox(width: 4),
+                  Expanded(child: Text(dt['author'].toString())),
+                  SizedBox(width: 4),
+                  Expanded(child: Text(dt['departament'].toString())),
+                  SizedBox(width: 4),
+                  Expanded(child: Text(dt['theme'].toString())),
+                  SizedBox(width: 20),
+                  Visibility(
+                    visible:
+                        UserDataMain['privilege'] == 'executor' ||
+                        UserDataMain['privilege'] == 'admin',
+                    child: Expanded(
+                      child:
+                          dt['priority'] == 'Критический'
+                              ? Text_PRIORITET_critical()
+                              : dt['priority'] == 'Средний'
+                              ? Text_PRIORITET_medium()
+                              : Text_PRIORITET_easy(),
+                    ),
+                  ),
+                  SizedBox(width: 4),
+
+                  dt['status'] == 'Ожидает ответа'
+                      ? Text_STATUS_Waiting()
+                      : dt['status'] == 'Выполняется'
+                      ? Text_STATUS_In_progress()
+                      : dt['status'] == 'Решено'
+                      ? Text_STATUS_Solved()
+                      : Text_STATUS_No_Solved(),
+
+                  SizedBox(width: 4),
+                  Expanded(child: Text(dt['time_create'].toString())),
+                ],
+              ),
+              Divider(color: Color.fromARGB(76, 47, 43, 61), thickness: 0.7),
+            ],
+          ),
         ),
       ),
     );
@@ -331,10 +375,6 @@ class _HomePageState extends State<HomePage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Expanded(
-                              child: Text_medium_18_Black(Text_name: 'ID'),
-                            ),
-                            SizedBox(width: 8),
-                            Expanded(
                               child: Text_medium_18_Black(
                                 Text_name: 'Исполнитель',
                               ),
@@ -351,10 +391,15 @@ class _HomePageState extends State<HomePage> {
                             Expanded(
                               child: Text_medium_18_Black(Text_name: 'Тема'),
                             ),
-                            SizedBox(width: 4),
-                            Expanded(
-                              child: Text_medium_18_Black(
-                                Text_name: 'Приоритет',
+                            SizedBox(width: 20),
+                            Visibility(
+                              visible:
+                                  UserDataMain['privilege'] == 'executor' ||
+                                  UserDataMain['privilege'] == 'admin',
+                              child: Expanded(
+                                child: Text_medium_18_Black(
+                                  Text_name: 'Приоритет',
+                                ),
                               ),
                             ),
                             SizedBox(width: 4),
@@ -374,10 +419,22 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                      child: Divider(
+                        color: Color.fromARGB(76, 47, 43, 61),
+                        thickness: 1,
+                      ),
+                    ),
 
                     Expanded(
                       child: FirebaseAnimatedList(
-                        query: dbRef,
+                        query:
+                            UserDataMain['privilege'] == 'admin'
+                                ? dbRef
+                                : UserDataMain['privilege'] == 'executor'
+                                ? dbRefExecutor
+                                : dbRefUser,
                         itemBuilder: (
                           BuildContext context,
                           DataSnapshot snapshot,
@@ -386,7 +443,10 @@ class _HomePageState extends State<HomePage> {
                         ) {
                           Map dt = snapshot.value as Map;
                           String nameuser = snapshot.key as String;
-                          return listItem(dt, nameuser, index);
+                          Map apDT = {'Hashcode': nameuser};
+                          apDT.addAll(dt);
+                          print(apDT);
+                          return listItem(dt, nameuser, index, apDT);
                         },
                       ),
                     ),

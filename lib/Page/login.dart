@@ -82,8 +82,6 @@ class _LoginState extends State<Login> {
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Почта',
-                    //helperText: '',
-                    hintText: 'IvanovII@mail.ru',
                   ),
                 ),
                 SizedBox(height: 12),

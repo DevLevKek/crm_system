@@ -93,12 +93,15 @@ class _Role extends State<Role> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text_medium_16_Black(Text_name: nameuser),
-                    Text_reqular_13_Black(Text_name: dt['name']),
-                  ],
+                Container(
+                  width: 170,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text_medium_16_Black(Text_name: nameuser),
+                      Text_reqular_13_Black(Text_name: dt['name']),
+                    ],
+                  ),
                 ),
 
                 DropdownButton<String>(
@@ -372,7 +375,10 @@ class _Role extends State<Role> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text_medium_16_Black(Text_name: 'Имя'),
+                            Container(
+                              width: 100,
+                              child: Text_medium_16_Black(Text_name: 'Имя'),
+                            ),
                             Text_medium_16_Black(Text_name: 'Отдел'),
                             Text_medium_16_Black(Text_name: 'Роль'),
                           ],

@@ -49,6 +49,7 @@ class _ApplicationsState extends State<Applications> {
   String selectDeportament = '';
   String selectTheme = '';
   String oldDepartament = '   ';
+  String priority = '';
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +75,15 @@ class _ApplicationsState extends State<Applications> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Center(child: Text_medium_24_Black(Text_name: 'Заявка')),
+                
+                Center(child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Icon_Close_Button(context),
+                    Text_medium_24_Black(Text_name: 'Заявка'),
+                    SizedBox(width: 1,)
+                  ],
+                )),
                 SizedBox(height: 24),
 
                 Row(
@@ -96,9 +105,10 @@ class _ApplicationsState extends State<Applications> {
                         setState(() {
                           selectDeportament = value.toString();
                         });
+
                         dApplication_template_theme.clear();
                         selectTheme = '';
-
+                        priority = ''; 
                         choose_deportament = true;
                         if (selectDeportament != '   ') {
                           var refAT = FirebaseDatabase.instance
@@ -119,8 +129,8 @@ class _ApplicationsState extends State<Applications> {
                               }
                             });
                           });
-                          print(dApplication_template_theme);
-                          print(choose_deportament);
+                          // print(dApplication_template_theme);
+                          // print(choose_deportament);
                         } else {}
                       },
                     ),
@@ -146,9 +156,30 @@ class _ApplicationsState extends State<Applications> {
                                   })
                                   .toList()
                               : null,
-                      onChanged: (newvalue) {
+                      onChanged: (newvalue) async {
                         setState(() {
                           selectTheme = newvalue.toString();
+                        });
+                        var refAT = FirebaseDatabase.instance
+                            .ref('Application_template_departament')
+                            .child(selectDeportament);
+                        DatabaseEvent event = await refAT.once();
+
+                        Map<dynamic, dynamic> data_db =
+                            event.snapshot.value as Map;
+                        data_db.forEach((key, value) {
+                          if (key == 'theme') {
+                            Map<dynamic, dynamic> data = value as Map;
+                            data.forEach((key, value) {
+                              if (selectTheme == key) {
+                                Map<dynamic, dynamic > dd = value as Map; 
+                                dd.forEach((key, value) {
+                                  priority = value;
+                                  print(priority);
+                                },);
+                              }
+                            });
+                          }
                         });
                       },
                     ),
@@ -198,7 +229,8 @@ class _ApplicationsState extends State<Applications> {
                           'author': UserDataMain['email'].toString(),
                           'executor': '',
                           'time_create': date.toString(),
-                          'status': 'Ожидает ответа'
+                          'status': 'Ожидает ответа',
+                          'priority': priority,
                         };
 
                         var ref =

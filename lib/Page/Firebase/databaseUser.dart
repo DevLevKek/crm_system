@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 
-Map<String, String> UserDataMain = {'name': '', 'email': '', 'privilege': ''};
+Map<String, String> UserDataMain = {'name': '', 'email': '', 'privilege': '', 'departament':''};
 
 class UpdateDB {
   final user = FirebaseAuth.instance.currentUser?.email;
@@ -21,6 +21,11 @@ class UpdateDB {
           if (key == 'privilege') {
             UserDataMain['privilege'] = value;
           }
+          if (key == 'deportament') {
+            UserDataMain['departament'] = value;
+          }
+          print(UserDataMain['departament']);
+          
         });
       }
     });

@@ -77,8 +77,6 @@ class _RegistrState extends State<Registr> {
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Имя',
-                    //helperText: '',
-                    hintText: 'Лев',
                   ),
                 ),
 
@@ -90,8 +88,6 @@ class _RegistrState extends State<Registr> {
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Почта',
-                    //helperText: '',
-                    hintText: 'IvanovII@mail.ru',
                   ),
                 ),
                 SizedBox(height: 12),

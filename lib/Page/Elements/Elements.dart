@@ -143,19 +143,22 @@ Widget Text_bold_24({required String Text_name}) {
 // ignore: non_constant_identifier_names
 Widget Text_STATUS_In_progress() {
   return Container(
+    width: 140,
     decoration: BoxDecoration(
       borderRadius: BorderRadius.all(Radius.circular(4)),
       color: Color.fromARGB(55, 114, 103, 240),
     ),
-    child: Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-      child: Text(
-        'Выполняется',
-        style: TextStyle(
-          fontWeight: FontWeight.w500,
-          fontSize: 15,
-          fontFamily: 'Public Sans',
-          color: Color.fromARGB(255, 115, 103, 240),
+    child: Center(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+        child: Text(
+          'Выполняется',
+          style: TextStyle(
+            fontWeight: FontWeight.w500,
+            fontSize: 15,
+            fontFamily: 'Public Sans',
+            color: Color.fromARGB(255, 115, 103, 240),
+          ),
         ),
       ),
     ),
@@ -165,19 +168,22 @@ Widget Text_STATUS_In_progress() {
 // ignore: non_constant_identifier_names
 Widget Text_STATUS_Waiting() {
   return Container(
+    width: 140,
     decoration: BoxDecoration(
       borderRadius: BorderRadius.all(Radius.circular(4)),
       color: Color.fromARGB(55, 255, 158, 67),
     ),
-    child: Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-      child: Text(
-        'В ожидании',
-        style: TextStyle(
-          fontWeight: FontWeight.w500,
-          fontSize: 15,
-          fontFamily: 'Public Sans',
-          color: Color.fromARGB(255, 255, 158, 67),
+    child: Center(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+        child: Text(
+          'Ожидает ответа',
+          style: TextStyle(
+            fontWeight: FontWeight.w500,
+            fontSize: 15,
+            fontFamily: 'Public Sans',
+            color: Color.fromARGB(255, 255, 158, 67),
+          ),
         ),
       ),
     ),
@@ -187,19 +193,22 @@ Widget Text_STATUS_Waiting() {
 // ignore: non_constant_identifier_names
 Widget Text_STATUS_Solved() {
   return Container(
+    width: 140,
     decoration: BoxDecoration(
       borderRadius: BorderRadius.all(Radius.circular(4)),
       color: Color.fromARGB(55, 40, 199, 111),
     ),
-    child: Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-      child: Text(
-        'Решено',
-        style: TextStyle(
-          fontWeight: FontWeight.w500,
-          fontSize: 15,
-          fontFamily: 'Public Sans',
-          color: Color.fromARGB(255, 40, 199, 111),
+    child: Center(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+        child: Text(
+          'Решено',
+          style: TextStyle(
+            fontWeight: FontWeight.w500,
+            fontSize: 15,
+            fontFamily: 'Public Sans',
+            color: Color.fromARGB(255, 40, 199, 111),
+          ),
         ),
       ),
     ),
@@ -209,19 +218,22 @@ Widget Text_STATUS_Solved() {
 // ignore: non_constant_identifier_names
 Widget Text_STATUS_No_Solved() {
   return Container(
+    width: 140,
     decoration: BoxDecoration(
       borderRadius: BorderRadius.all(Radius.circular(4)),
       color: Color.fromARGB(55, 255, 76, 81),
     ),
-    child: Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-      child: Text(
-        'Нет решения',
-        style: TextStyle(
-          fontWeight: FontWeight.w500,
-          fontSize: 15,
-          fontFamily: 'Public Sans',
-          color: Color.fromARGB(255, 255, 76, 82),
+    child: Center(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+        child: Text(
+          'Нет решения',
+          style: TextStyle(
+            fontWeight: FontWeight.w500,
+            fontSize: 15,
+            fontFamily: 'Public Sans',
+            color: Color.fromARGB(255, 255, 76, 82),
+          ),
         ),
       ),
     ),
@@ -234,7 +246,7 @@ Widget Text_STATUS_No_Solved() {
 // ignore: non_constant_identifier_names
 Widget Text_PRIORITET_critical() {
   return Row(
-    mainAxisAlignment: MainAxisAlignment.center,
+    mainAxisAlignment: MainAxisAlignment.start,
     children: [
       Container(
         height: 10,
@@ -261,7 +273,7 @@ Widget Text_PRIORITET_critical() {
 // ignore: non_constant_identifier_names
 Widget Text_PRIORITET_medium() {
   return Row(
-    mainAxisAlignment: MainAxisAlignment.center,
+    mainAxisAlignment: MainAxisAlignment.start,
     children: [
       Container(
         height: 10,
@@ -288,7 +300,7 @@ Widget Text_PRIORITET_medium() {
 // ignore: non_constant_identifier_names
 Widget Text_PRIORITET_easy() {
   return Row(
-    mainAxisAlignment: MainAxisAlignment.center,
+    mainAxisAlignment: MainAxisAlignment.start,
     children: [
       Container(
         height: 10,
