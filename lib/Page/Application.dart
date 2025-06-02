@@ -43,6 +43,7 @@ class _ApplicationState extends State<Application> {
         ref.update({'status': 'Решено'});
         bd['status'] = 'Решено';
         print(bd['status']);
+        Navigator.pushReplacementNamed(context, '/HomePage');
       },
     );
     Widget notsuccessfulButton = TextButton(
@@ -57,6 +58,7 @@ class _ApplicationState extends State<Application> {
         ref.update({'status': 'Не успешно'});
         bd['status'] = 'Не успешно';
         print(bd['status']);
+        Navigator.pushReplacementNamed(context, '/HomePage');
       },
     );
     Widget cancelButton = TextButton(
@@ -315,7 +317,9 @@ class _ApplicationState extends State<Application> {
                                             .ref('applications')
                                             .child(bd['Hashcode']);
                                         ref.update({'status': 'Выполняется'});
+                                        ref.update({'executor': UserDataMain['email']});
                                         bd['status'] = 'Выполняется';
+                                        bd['executor'] = UserDataMain['email'];
                                         print(bd['status']);
                                       },
                                       child: Text_medium_16_White(

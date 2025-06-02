@@ -72,7 +72,7 @@ class _HomePageState extends State<HomePage> {
           print(index);
         },
         child: Container(
-          height: 50,
+          height: 70,
           color: const Color.fromARGB(255, 255, 255, 255),
           child: Column(
             children: [
@@ -85,7 +85,7 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(width: 4),
                   Expanded(child: Text(dt['departament'].toString())),
                   SizedBox(width: 4),
-                  Expanded(child: Text(dt['theme'].toString())),
+                  Expanded(child: Container( child: Text(dt['theme'].toString()))),
                   SizedBox(width: 20),
                   Visibility(
                     visible:
