@@ -19,7 +19,7 @@ void main() async {
   runApp(
     MaterialApp(
       title: 'CRM',
-
+      debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
         '/': (BuildContext context) => Login(),

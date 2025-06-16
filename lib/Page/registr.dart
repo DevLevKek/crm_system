@@ -171,7 +171,7 @@ class _RegistrState extends State<Registr> {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(
-                                      'Такая учетная запись уже есть',
+                                      'Ошибка',
                                     ),
                                   ),
                                 );
@@ -180,7 +180,7 @@ class _RegistrState extends State<Registr> {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text(
-                                    'Логин не должен содержать специальные символы("!", "_", "@", "#" и т.д.)',
+                                    'Логин не должен включать специальные символы.("!", "_", "@", "#" и т.д.)',
                                   ),
                                 ),
                               );

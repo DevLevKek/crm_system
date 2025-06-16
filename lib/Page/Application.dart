@@ -2,6 +2,7 @@ import 'package:crm_system/Page/Elements/Elements.dart';
 import 'package:crm_system/Page/Firebase/databaseUser.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'dart:math' as math;
 
 class Application extends StatefulWidget {
   const Application({super.key});
@@ -86,313 +87,462 @@ class _ApplicationState extends State<Application> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: Color.fromARGB(255, 248, 247, 250),
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 400.0,
-              vertical: 25,
-            ),
-            child: Container(
-              padding: EdgeInsets.symmetric(vertical: 24, horizontal: 24),
-              decoration: BoxDecoration(
-                color: Color.fromARGB(255, 255, 255, 255),
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(
-                    color: Color.fromARGB(52, 47, 43, 61),
-                    blurRadius: 20,
-                    //offset: Offset(0, 0),
-                  ),
-                ],
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Icon_Close_Button(context),
-                  SizedBox(height: 12),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Text_medium_24_Black(Text_name: 'Заявка'),
-                          SizedBox(width: 12),
-                          Container(
-                            height: 10,
-                            width: 20,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color:
-                                  bd['priority'] == 'Критический'
-                                      ? const Color.fromARGB(255, 255, 76, 82)
-                                      : bd['priority'] == 'Средний'
-                                      ? const Color.fromARGB(255, 255, 158, 67)
-                                      : const Color.fromARGB(255, 40, 199, 111),
-                            ),
-                          ),
-                        ],
+      body: Center(
+        child: Container(
+          width: 800,
+          height: 800,
+          color: Color.fromARGB(255, 248, 247, 250),
+          padding: const EdgeInsets.symmetric(vertical: 25),
+          child: Row(
+            children: [
+              SizedBox(width: 25),
+              Expanded(
+                flex: 1,
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 24, horizontal: 24),
+                  decoration: BoxDecoration(
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color.fromARGB(24, 47, 43, 61),
+                        blurRadius: 10,
+                        //offset: Offset(0, 0),
                       ),
-
-                      bd['status'] == 'Ожидает ответа'
-                          ? Text_STATUS_Waiting()
-                          : bd['status'] == 'Выполняется'
-                          ? Text_STATUS_In_progress()
-                          : bd['status'] == 'Решено'
-                          ? Text_STATUS_Solved()
-                          : Text_STATUS_No_Solved(),
                     ],
                   ),
-                  SizedBox(height: 12),
-                  Divider(
-                    color: Color.fromARGB(76, 47, 43, 61),
-                    thickness: 0.7,
-                  ),
-                  Column(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Icon_Close_Button(context),
                       SizedBox(height: 12),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          SizedBox(
-                            width: 200,
-                            child: Text_medium_18_Black(
-                              Text_name: 'Дата Создания: ',
-                            ),
+                          Row(
+                            children: [
+                              Text_medium_24_Black(Text_name: 'Заявка'),
+                              SizedBox(width: 12),
+                              Container(
+                                height: 10,
+                                width: 20,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color:
+                                      bd['priority'] == 'Критический'
+                                          ? const Color.fromARGB(255, 255, 76, 82)
+                                          : bd['priority'] == 'Средний'
+                                          ? const Color.fromARGB(
+                                            255,
+                                            255,
+                                            158,
+                                            67,
+                                          )
+                                          : const Color.fromARGB(
+                                            255,
+                                            40,
+                                            199,
+                                            111,
+                                          ),
+                                ),
+                              ),
+                            ],
                           ),
-                          Text(
-                            bd['time_create'].toString(),
-                            style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 18,
-                              fontFamily: 'Public Sans',
-                              color: Color.fromARGB(131, 47, 43, 61),
-                            ),
-                          ),
+        
+                          bd['status'] == 'Ожидает ответа'
+                              ? Text_STATUS_Waiting()
+                              : bd['status'] == 'Выполняется'
+                              ? Text_STATUS_In_progress()
+                              : bd['status'] == 'Решено'
+                              ? Text_STATUS_Solved()
+                              : Text_STATUS_No_Solved(),
                         ],
                       ),
                       SizedBox(height: 12),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            width: 200,
-                            child: Text_medium_18_Black(Text_name: 'Отдел: '),
-                          ),
-                          Text(
-                            bd['departament'].toString(),
-                            style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 18,
-                              fontFamily: 'Public Sans',
-                              color: Color.fromARGB(131, 47, 43, 61),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 12),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            width: 200,
-                            child: Text_medium_18_Black(Text_name: 'Тема: '),
-                          ),
-                          Text(
-                            bd['theme'].toString(),
-                            style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 18,
-                              fontFamily: 'Public Sans',
-                              color: Color.fromARGB(131, 47, 43, 61),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 12),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            width: 200,
-                            child: Text_medium_18_Black(Text_name: 'Автор: '),
-                          ),
-                          Text(
-                            bd['author'].toString(),
-                            style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 18,
-                              fontFamily: 'Public Sans',
-                              color: Color.fromARGB(131, 47, 43, 61),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 12),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            width: 200,
-                            child: Text_medium_18_Black(
-                              Text_name: 'Исполнитель: ',
-                            ),
-                          ),
-                          Text(
-                            bd['executor'].toString(),
-                            style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 18,
-                              fontFamily: 'Public Sans',
-                              color: Color.fromARGB(131, 47, 43, 61),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 24),
                       Divider(
                         color: Color.fromARGB(76, 47, 43, 61),
                         thickness: 0.7,
                       ),
-                      SizedBox(height: 8),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      Column(
                         children: [
-                          Text_medium_18_Black(Text_name: 'Комментарий'),
-                        ],
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            height: 200,
-                            child: Text(
-                              bd['comment'].toString(),
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 18,
-                                fontFamily: 'Public Sans',
-                                color: Color.fromARGB(131, 47, 43, 61),
+                          SizedBox(height: 12),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                width: 200,
+                                child: Text_medium_18_Black(
+                                  Text_name: 'Дата Создания: ',
+                                ),
                               ),
-                            ),
+                              Text(
+                                bd['time_create'].toString(),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 18,
+                                  fontFamily: 'Public Sans',
+                                  color: Color.fromARGB(131, 47, 43, 61),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 12),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                width: 200,
+                                child: Text_medium_18_Black(Text_name: 'Отдел: '),
+                              ),
+                              Text(
+                                bd['departament'].toString(),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 18,
+                                  fontFamily: 'Public Sans',
+                                  color: Color.fromARGB(131, 47, 43, 61),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 12),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                width: 200,
+                                child: Text_medium_18_Black(Text_name: 'Тема: '),
+                              ),
+                              Text(
+                                bd['theme'].toString(),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 18,
+                                  fontFamily: 'Public Sans',
+                                  color: Color.fromARGB(131, 47, 43, 61),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 12),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                width: 200,
+                                child: Text_medium_18_Black(Text_name: 'Автор: '),
+                              ),
+                              Text(
+                                bd['author'].toString(),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 18,
+                                  fontFamily: 'Public Sans',
+                                  color: Color.fromARGB(131, 47, 43, 61),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 12),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                width: 200,
+                                child: Text_medium_18_Black(
+                                  Text_name: 'Исполнитель: ',
+                                ),
+                              ),
+                              Text(
+                                bd['executor'].toString(),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 18,
+                                  fontFamily: 'Public Sans',
+                                  color: Color.fromARGB(131, 47, 43, 61),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 24),
+                          Divider(
+                            color: Color.fromARGB(76, 47, 43, 61),
+                            thickness: 0.7,
+                          ),
+                          SizedBox(height: 8),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text_medium_18_Black(Text_name: 'Комментарий'),
+                            ],
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                height: 200,
+                                child: Text(
+                                  bd['comment'].toString(),
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 18,
+                                    fontFamily: 'Public Sans',
+                                    color: Color.fromARGB(131, 47, 43, 61),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Visibility(
+                            visible: UserDataMain['privilege'] == 'executor',
+                            child:
+                                bd['status'] == 'Ожидает ответа'
+                                    ? Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        ElevatedButton(
+                                          style: ButtonStyle(
+                                            shadowColor: WidgetStatePropertyAll<
+                                              Color
+                                            >(Color.fromARGB(0, 255, 225, 227)),
+                                            shape: WidgetStatePropertyAll(
+                                              RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                            ),
+                                            backgroundColor:
+                                                WidgetStatePropertyAll<Color>(
+                                                  Color.fromARGB(
+                                                    255,
+                                                    40,
+                                                    199,
+                                                    111,
+                                                  ),
+                                                ),
+                                          ),
+                                          onPressed: () async {
+                                            setState(() {});
+                                            var ref = FirebaseDatabase.instance
+                                                .ref('applications')
+                                                .child(bd['Hashcode']);
+                                            ref.update({'status': 'Выполняется'});
+                                            ref.update({
+                                              'executor': UserDataMain['email'],
+                                            });
+                                            bd['status'] = 'Выполняется';
+                                            bd['executor'] =
+                                                UserDataMain['email'];
+                                            print(bd['status']);
+                                          },
+                                          child: Text_medium_16_White(
+                                            Text_name: 'Принять заявку',
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                    : bd['status'] == 'Выполняется'
+                                    ? Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        ElevatedButton(
+                                          style: ButtonStyle(
+                                            shadowColor: WidgetStatePropertyAll<
+                                              Color
+                                            >(Color.fromARGB(0, 255, 225, 227)),
+                                            shape: WidgetStatePropertyAll(
+                                              RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                            ),
+                                            backgroundColor:
+                                                WidgetStatePropertyAll<Color>(
+                                                  Color.fromARGB(
+                                                    255,
+                                                    40,
+                                                    199,
+                                                    111,
+                                                  ),
+                                                ),
+                                          ),
+                                          onPressed: () {
+                                            showAlertDialog(context);
+                                          },
+                                          child: Text_medium_16_White(
+                                            Text_name: 'Завершить заявку',
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                    : Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        ElevatedButton(
+                                          style: ButtonStyle(
+                                            shadowColor: WidgetStatePropertyAll<
+                                              Color
+                                            >(Color.fromARGB(0, 255, 225, 227)),
+                                            shape: WidgetStatePropertyAll(
+                                              RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                            ),
+                                            backgroundColor:
+                                                WidgetStatePropertyAll<Color>(
+                                                  Color.fromARGB(0, 40, 199, 111),
+                                                ),
+                                          ),
+                                          onPressed: null,
+                                          child: Text_medium_16_White(
+                                            Text_name: 'Принять заявку',
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                           ),
                         ],
                       ),
-                      Visibility(
-                        visible: UserDataMain['privilege'] == 'executor',
-                        child:
-                            bd['status'] == 'Ожидает ответа'
-                                ? Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    ElevatedButton(
-                                      style: ButtonStyle(
-                                        shadowColor:
-                                            WidgetStatePropertyAll<Color>(
-                                              Color.fromARGB(0, 255, 225, 227),
-                                            ),
-                                        shape: WidgetStatePropertyAll(
-                                          RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                              10,
-                                            ),
-                                          ),
-                                        ),
-                                        backgroundColor:
-                                            WidgetStatePropertyAll<Color>(
-                                              Color.fromARGB(255, 40, 199, 111),
-                                            ),
-                                      ),
-                                      onPressed: () async {
-                                        setState(() {});
-                                        var ref = FirebaseDatabase.instance
-                                            .ref('applications')
-                                            .child(bd['Hashcode']);
-                                        ref.update({'status': 'Выполняется'});
-                                        ref.update({'executor': UserDataMain['email']});
-                                        bd['status'] = 'Выполняется';
-                                        bd['executor'] = UserDataMain['email'];
-                                        print(bd['status']);
-                                      },
-                                      child: Text_medium_16_White(
-                                        Text_name: 'Принять заявку',
-                                      ),
-                                    ),
-                                  ],
-                                )
-                                : bd['status'] == 'Выполняется'
-                                ? Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    ElevatedButton(
-                                      style: ButtonStyle(
-                                        shadowColor:
-                                            WidgetStatePropertyAll<Color>(
-                                              Color.fromARGB(0, 255, 225, 227),
-                                            ),
-                                        shape: WidgetStatePropertyAll(
-                                          RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                              10,
-                                            ),
-                                          ),
-                                        ),
-                                        backgroundColor:
-                                            WidgetStatePropertyAll<Color>(
-                                              Color.fromARGB(255, 40, 199, 111),
-                                            ),
-                                      ),
-                                      onPressed: () {
-                                        showAlertDialog(context);
-                                      },
-                                      child: Text_medium_16_White(
-                                        Text_name: 'Завершить заявку',
-                                      ),
-                                    ),
-                                  ],
-                                )
-                                : Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    ElevatedButton(
-                                      style: ButtonStyle(
-                                        shadowColor:
-                                            WidgetStatePropertyAll<Color>(
-                                              Color.fromARGB(0, 255, 225, 227),
-                                            ),
-                                        shape: WidgetStatePropertyAll(
-                                          RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                              10,
-                                            ),
-                                          ),
-                                        ),
-                                        backgroundColor:
-                                            WidgetStatePropertyAll<Color>(
-                                              Color.fromARGB(0, 40, 199, 111),
-                                            ),
-                                      ),
-                                      onPressed: null,
-                                      child: Text_medium_16_White(
-                                        Text_name: 'Принять заявку',
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                      ),
                     ],
                   ),
-                ],
+                ),
               ),
-            ),
+              // SizedBox(width: 25),
+              // Expanded(
+              //   flex: 1,
+              //   child: Container(
+              //     //padding: EdgeInsets.symmetric(vertical: 24, horizontal: 24),
+              //     decoration: BoxDecoration(
+              //       color: Color(0xffE8E6FC),
+              //       borderRadius: BorderRadius.circular(10),
+              //       boxShadow: [
+              //         BoxShadow(
+              //           color: Color.fromARGB(24, 47, 43, 61),
+              //           blurRadius: 10,
+              //           //offset: Offset(0, 0),
+              //         ),
+              //       ],
+              //     ),
+              //     child: Column(
+              //       mainAxisAlignment: MainAxisAlignment.start,
+              //       children: [
+              //         Align(
+              //           alignment: Alignment.topLeft,
+              //           child: Container(
+              //             decoration: BoxDecoration(
+              //               borderRadius: BorderRadius.vertical(
+              //                 top: Radius.circular(10),
+              //               ),
+              //               color: const Color.fromARGB(255, 255, 255, 255),
+              //             ),
+              //             height: 100,
+              //             child: Padding(
+              //               padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              //               child: Row(
+              //                 children: [
+              //                   Text_medium_24_Black(Text_name: 'Чат заявки'),
+              //                 ],
+              //               ),
+              //             ),
+              //           ),
+              //         ),
+              //         Expanded(child: Container()),
+        
+              //         Align(
+              //           alignment: Alignment.bottomCenter,
+              //           child: Padding(
+              //             padding: const EdgeInsets.all(25.0),
+              //             child: Container(
+              //               height: 60,
+              //               decoration: BoxDecoration(
+              //                 color: Color.fromARGB(255, 255, 255, 255),
+              //                 borderRadius: BorderRadius.circular(10),
+              //                 boxShadow: [
+              //                   BoxShadow(
+              //                     color: Color.fromARGB(24, 47, 43, 61),
+              //                     blurRadius: 10,
+              //                     //offset: Offset(0, 0),
+              //                   ),
+              //                 ],
+              //               ),
+              //               child: Row(
+              //                 children: [
+              //                   Expanded(
+              //                     flex: 2,
+              //                     child: Padding(
+              //                       padding: const EdgeInsets.symmetric(
+              //                         horizontal: 16.0,
+              //                       ),
+              //                       child: TextField(
+              //                         decoration: InputDecoration(
+              //                           border: InputBorder.none,
+              //                         ),
+              //                       ),
+              //                     ),
+              //                   ),
+        
+              //                   Padding(
+              //                     padding: const EdgeInsets.symmetric(
+              //                       horizontal: 8.0,
+              //                     ),
+              //                     child: ElevatedButton(
+              //                       style: ButtonStyle(
+              //                         shape: WidgetStatePropertyAll(
+              //                           RoundedRectangleBorder(
+              //                             borderRadius: BorderRadius.circular(10),
+              //                           ),
+              //                         ),
+              //                         backgroundColor:
+              //                             WidgetStatePropertyAll<Color>(
+              //                               Color.fromARGB(255, 114, 103, 240),
+              //                             ),
+              //                       ),
+              //                       child: Padding(
+              //                         padding: const EdgeInsets.all(8.0),
+              //                         child: Row(
+              //                           children: [
+              //                             Text(
+              //                               'Отправить',
+              //                               style: TextStyle(
+              //                                 color: Colors.white,
+              //                                 fontSize: 17,
+              //                                 fontWeight: FontWeight.w300,
+              //                               ),
+              //                             ),
+              //                             SizedBox(width: 12),
+              //                             Transform.rotate(
+              //                               angle: -45 * math.pi / 180,
+              //                               child: Icon(
+              //                                 Icons.send,
+              //                                 color: Colors.white,
+              //                               ),
+              //                             ),
+              //                           ],
+              //                         ),
+              //                       ),
+              //                       // FUNC
+              //                       onPressed: () {},
+              //                     ),
+              //                   ),
+              //                 ],
+              //               ),
+              //             ),
+              //           ),
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              // ),
+              SizedBox(width: 25),
+            ],
           ),
         ),
       ),
