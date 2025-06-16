@@ -94,7 +94,7 @@ class _Role extends State<Role> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  width: 170,
+                  width: 240,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
